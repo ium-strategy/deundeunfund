@@ -145,6 +145,12 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+<!-- 카카오 JavaScript SDK (선택사항) - SDK 정확한 채팅 열기 사용 시 주석 해제
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
+        integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka"
+        crossorigin="anonymous"></script>
+-->
 <style>
   /* ===== 제출 서류 카드 (4개 통일) ===== */
   .doc-card {
@@ -676,6 +682,35 @@
   #topBtn:hover svg { color: white; }
   #topBtn:hover { transform: translateY(-2px); }
   #topBtn.is-show:active { transform: scale(0.95); }
+
+  /* ===== 플로팅 카카오톡 채널 버튼 ===== */
+  #kakaoChannelBtn {
+    /* PC: Top 버튼 위쪽 */
+    right: 24px;
+    bottom: 96px;
+  }
+  /* 모바일: Top 버튼 위쪽 + 고정 CTA 바 위 */
+  @media (max-width: 767px) {
+    #kakaoChannelBtn {
+      right: 16px;
+      bottom: 148px; /* Top버튼(48px) + 간격(16px) + 고정CTA바 위(84px) */
+    }
+  }
+  #kakaoChannelBtn.is-show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  #kakaoChannelBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(250, 225, 0, 0.50), 0 4px 10px rgba(0,0,0,0.10);
+  }
+  #kakaoChannelBtn:active { transform: scale(0.96); }
+  /* 모바일에서는 라벨 숨기고 아이콘만 보여서 작게 (선택사항) */
+  @media (max-width: 380px) {
+    #kakaoChannelBtn { padding-left: 14px; padding-right: 14px; }
+    #kakaoChannelBtn .kakao-btn-label { display: none; }
+  }
 
   /* Pretty checks */
   .check {
@@ -2259,6 +2294,29 @@
   </div>
 </div>
 
+<!-- ========================= 플로팅 카카오톡 채널 문의 버튼 ========================= -->
+<!--
+  🔧 실제 운영 시 설정 방법:
+  1. 카카오톡 채널 관리자 센터(https://center-pf.kakao.com)에서 채널 검색용 ID 확인
+     (예: @warmfund, @nanummirae 등)
+  2. 아래 두 곳의 'YOUR_CHANNEL_ID'를 실제 채널 ID로 교체
+     - 변수 KAKAO_CHANNEL_ID (JS 영역)
+     - 직접 URL fallback (이 버튼 HTML)
+  3. (선택) Kakao JavaScript SDK 사용하려면:
+     - https://developers.kakao.com 에서 앱 등록 후 JavaScript 키 발급
+     - JS 영역의 KAKAO_APP_KEY 변수에 입력
+     - SDK가 없어도 기본 URL fallback으로 작동함
+-->
+<button id="kakaoChannelBtn" type="button" aria-label="카카오톡 채널 문의하기"
+        class="fixed z-40 group flex items-center gap-2 pl-3 pr-4 py-3 md:py-3.5 rounded-full font-pretendard-bold text-[13px] md:text-sm text-[#3D1D1C] opacity-0 pointer-events-none translate-y-3 transition-all duration-300 active:scale-95"
+        style="background: #FAE100; box-shadow: 0 8px 20px rgba(250, 225, 0, 0.40), 0 2px 6px rgba(0,0,0,0.08);">
+  <!-- 카카오톡 말풍선 아이콘 -->
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="flex-shrink-0">
+    <path d="M12 3C6.48 3 2 6.58 2 11c0 2.85 1.86 5.36 4.66 6.81-.2.74-.72 2.69-.83 3.11-.13.53.19.52.4.38.16-.11 2.55-1.74 3.59-2.45.71.1 1.43.15 2.18.15 5.52 0 10-3.58 10-8S17.52 3 12 3z" fill="#3D1D1C"/>
+  </svg>
+  <span class="kakao-btn-label">카카오톡 문의</span>
+</button>
+
 <!-- ========================= 플로팅 TOP 버튼 (PC + 모바일) ========================= -->
 <button id="topBtn" type="button" aria-label="맨 위로 이동"
         class="fixed z-40 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white shadow-[0_8px_24px_rgba(15,18,60,0.18)] border border-[var(--line)] flex items-center justify-center opacity-0 pointer-events-none translate-y-3 transition-all duration-300 hover:bg-[var(--primary)] hover:border-[var(--primary)] active:scale-95">
@@ -2450,6 +2508,57 @@
     });
   }
 
+  // ============================================
+  // 카카오톡 채널 문의 버튼
+  // ============================================
+  // 🔧 운영 시 아래 두 변수를 실제 값으로 교체하세요
+  //
+  // 1) KAKAO_CHANNEL_ID — 필수
+  //    카카오톡 채널 관리자 센터(https://center-pf.kakao.com)에서
+  //    "채널 → 관리 → 검색용 ID" 확인 후 입력 (@ 제외)
+  //    예: 검색용 ID가 "@warmfund"라면 → "warmfund"
+  //
+  // 2) KAKAO_APP_KEY — 선택 (SDK 사용 시)
+  //    카카오 디벨로퍼스(https://developers.kakao.com)에서 발급받은
+  //    "JavaScript 키" 입력. SDK 없이도 채널 URL로 fallback 작동함.
+  //
+  const KAKAO_CHANNEL_ID = 'YOUR_CHANNEL_ID'; // ⚠️ 실제 채널 ID로 교체
+  const KAKAO_APP_KEY    = '';                // (선택) JavaScript 키
+
+  const kakaoBtn = document.getElementById('kakaoChannelBtn');
+  if (kakaoBtn) {
+    // SDK 사용 가능 여부 (앱 키가 있고 SDK 로드된 경우)
+    let useSDK = false;
+    if (KAKAO_APP_KEY && typeof Kakao !== 'undefined') {
+      try {
+        if (!Kakao.isInitialized()) {
+          Kakao.init(KAKAO_APP_KEY);
+        }
+        useSDK = Kakao.isInitialized();
+      } catch (e) {
+        useSDK = false;
+      }
+    }
+
+    kakaoBtn.addEventListener('click', () => {
+      if (KAKAO_CHANNEL_ID === 'YOUR_CHANNEL_ID' || !KAKAO_CHANNEL_ID) {
+        // 채널 ID 미설정 시 안내 (개발 단계)
+        alert('⚠️ 카카오톡 채널 ID가 설정되지 않았습니다.\n관리자에게 문의해주세요.');
+        return;
+      }
+
+      if (useSDK && Kakao.Channel) {
+        // SDK 방식: 정확하게 채팅창 열기
+        Kakao.Channel.chat({ channelPublicId: KAKAO_CHANNEL_ID });
+      } else {
+        // Fallback: 직접 카카오톡 채널 URL로 이동
+        // pf.kakao.com 형식 — 모바일에서는 카카오톡 앱으로 열림
+        const url = `https://pf.kakao.com/_${KAKAO_CHANNEL_ID}/chat`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    });
+  }
+
   // 모바일 하단 고정 CTA 바 — Hero 지나면 나타나고, Final CTA 보이면 숨김
   const fixedCta = document.getElementById('mobileFixedCta');
   const heroSection = document.querySelector('.hero-bg');
@@ -2477,10 +2586,14 @@
       else fixedCta.classList.add('translate-y-full');
     }
 
-    // TOP 버튼: 400px 이상 스크롤했을 때 표시
+    // TOP 버튼 + 카카오톡 채널 버튼: 400px 이상 스크롤했을 때 표시
     if (topBtn) {
       if (scrollY > 400) topBtn.classList.add('is-show');
       else topBtn.classList.remove('is-show');
+    }
+    if (kakaoBtn) {
+      if (scrollY > 400) kakaoBtn.classList.add('is-show');
+      else kakaoBtn.classList.remove('is-show');
     }
   }
   window.addEventListener('scroll', updateFloatingButtons, { passive: true });
