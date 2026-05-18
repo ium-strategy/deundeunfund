@@ -1414,7 +1414,7 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2v-9z" fill="#247359"/></svg>
         </div>
         <div class="text-left">
-          <div class="text-[11px] text-[var(--ink-3)] font-bold">주거지원 대상</div>
+          <div class="text-[11px] text-[var(--ink-3)] font-bold">저소득층</div>
           <div class="text-sm font-bold text-[var(--ink)]">최대 <span class="text-[#247359]">500만 원</span></div>
         </div>
       </div>
@@ -2191,23 +2191,16 @@
         </div>
         <ul class="doc-list">
           <li>
-            <a href="assets/forms/신청서작성안내문.pdf" download class="doc-link" data-doc-name="신청서 작성 안내문">
+            <a href="assets/forms/든든기금2_보증금대출_신청안내문.pdf" download class="doc-link" data-doc-name="신청 안내문">
               <span class="doc-icon">📄</span>
-              <span class="doc-text"><strong>신청서 작성 안내문</strong> 확인 후 작성!</span>
+              <span class="doc-text"><strong>신청 안내문</strong> 다시 한번 확인 후 작성</span>
               <span class="doc-action">⬇</span>
             </a>
           </li>
           <li>
-            <a href="assets/forms/대출지원사업신청서.hwp" download class="doc-link" data-doc-name="대출지원사업 신청서">
+            <a href="assets/forms/든든기금2_보증금대출_신청서_양식_.doc" download class="doc-link" data-doc-name="보증금 대출사업 신청서">
               <span class="doc-icon">📄</span>
-              <span class="doc-text">대출지원사업 신청서 <span class="opacity-75">(해당 양식)</span></span>
-              <span class="doc-action">⬇</span>
-            </a>
-          </li>
-          <li>
-            <a href="assets/forms/개인정보수집동의서.hwp" download class="doc-link" data-doc-name="개인정보 수집·이용 동의서">
-              <span class="doc-icon">📄</span>
-              <span class="doc-text">개인정보 수집·이용 동의서</span>
+              <span class="doc-text">보증금 대출사업 신청서 <span class="opacity-75">(해당 양식)</span></span>
               <span class="doc-action">⬇</span>
             </a>
           </li>
@@ -2259,7 +2252,7 @@
          style="background: white; border: 1.5px solid var(--secondary); box-shadow: 0 6px 18px rgba(255, 102, 51, 0.10);">
       <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--secondary)] text-white text-base font-bold flex-shrink-0">⚠</span>
       <span class="text-sm md:text-[15px] text-[var(--ink)] flex-1 min-w-0" data-editable contenteditable="false">
-        제출서류는 신청 유형과 소득 상황에 따라 달라질 수 있습니다. 반드시 <strong class="text-[var(--secondary)]">공고문과 신청서류 안내자료</strong>를 확인한 뒤 제출해 주세요.
+        제출서류는 신청 유형과 소득 상황에 따라 달라질 수 있습니다. 반드시 <strong class="text-[var(--secondary)]">공고문 및 신청서 작성 안내문</strong>을 확인한 뒤 제출해 주세요.
       </span>
     </div>
   </div>
@@ -2641,7 +2634,7 @@
     public: {
       title: '공적지원 수급자',
       items: [
-        '국민기초생활보장 수급자 증명서',
+        '기초생활수급자증명서',
         '차상위계층 확인서',
         '한부모가족 증명서',
         '기타 공적지원 수급 확인서류',
@@ -2651,9 +2644,9 @@
     work: {
       title: '근로소득자',
       items: [
-        '최근 3개월 급여명세서 또는 급여 입금 통장 사본',
-        '재직증명서',
-        '원천징수영수증 (전년도)',
+        '근로소득원천징수영수증',
+        '급여명세표(임금대장, 갑근세원천징수확인서 등)',
+        '소득확인증명서(ISA가입용)',
       ],
       note: '회사에서 근무하며 급여를 받는 경우 위 서류 중 해당 서류를 제출하세요.',
     },
@@ -2678,7 +2671,6 @@
     etc: {
       title: '기타소득자',
       items: [
-        '소득금액증명원',
         '기타 소득 발생 증빙서류 (계약서, 입금내역 등)',
       ],
       note: '근로·사업·연금 외 기타 소득(이자, 배당, 강의료 등)이 있는 경우 증빙 서류를 제출하세요.',
@@ -2712,13 +2704,10 @@
     });
   });
 
-  // 다운로드 링크 클릭 시 파일 없을 경우 안내 (개발용)
+  // 다운로드 링크 클릭 추적 (개발용 콘솔 로그)
   document.querySelectorAll('.doc-link').forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
-      // 실제 파일 존재 여부는 fetch HEAD로 확인하기 어려우므로,
-      // 다운로드가 시작되지 않을 가능성이 있는 경우 (404) 대비 콘솔 안내
-      // 운영 시 실제 파일을 assets/forms/ 폴더에 올려두면 정상 작동
       console.log('파일 다운로드 시도:', href);
     });
   });
