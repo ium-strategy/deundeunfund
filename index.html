@@ -300,6 +300,92 @@
   }
   .doc-link:hover .doc-action { opacity: 1; transform: translateY(1px); }
 
+  /* ===== 듀얼 다운로드 행 (PDF + DOC 두 형식 제공) ===== */
+  .doc-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .doc-row-text {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .doc-row-formats {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .doc-format-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 7px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--ink);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform .15s, background .15s, box-shadow .15s;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .doc-format-btn:hover {
+    background: white;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  }
+  .doc-format-btn:active { transform: translateY(0); }
+  .doc-format-btn .doc-format-icon { font-size: 9px; }
+  .doc-format-btn--pdf { color: #c0392b; }
+  .doc-format-btn--doc { color: #2563eb; }
+
+  @media (max-width: 480px) {
+    .doc-row { gap: 8px; padding: 10px 11px; }
+    .doc-row-text { font-size: 13.5px; }
+    .doc-format-btn { padding: 3px 6px; font-size: 9.5px; }
+  }
+
+  /* ===== 경고박스 안 인라인 다운로드 링크 (공고문 / 신청 안내문) ===== */
+  .doc-link-inline {
+    color: var(--secondary);
+    text-decoration: none;
+    border-bottom: 1.5px solid rgba(255, 102, 51, 0.35);
+    padding-bottom: 1px;
+    transition: color .15s, border-color .15s;
+    display: inline;
+    white-space: nowrap;
+  }
+  .doc-link-inline strong {
+    font-weight: 700;
+    color: inherit;
+  }
+  .doc-link-inline .doc-link-arrow {
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: -2px;
+    opacity: 0.85;
+    transition: opacity .15s, transform .15s;
+  }
+  .doc-link-inline:hover {
+    color: #e0521c;
+    border-bottom-color: #e0521c;
+  }
+  .doc-link-inline:hover .doc-link-arrow {
+    opacity: 1;
+    transform: translateY(1px);
+  }
+
   /* 소제목 (03 카드 안 ※ 공통 등) */
   .doc-subhead {
     font-size: 12.5px;
@@ -1484,7 +1570,7 @@
             </svg>
           </div>
         </div>
-        <p class="text-center text-[15px] leading-relaxed text-white/90" data-editable contenteditable="false">
+        <p class="text-center text-[15px] leading-relaxed text-white/90 flex-1" data-editable contenteditable="false">
           청년은 <strong>최대 1,500만원</strong><br/>
           <span class="text-white/75 text-[13px]">(임차보증금의 50% 이내)</span>,<br/>
           저소득층은 <strong>최대 500만 원</strong>까지<br/>
@@ -1505,7 +1591,7 @@
         <div class="my-8 flex justify-center">
           <div class="w-20 h-20 rounded-3xl bg-white/15 backdrop-blur flex items-center justify-center font-display text-white text-3xl">%</div>
         </div>
-        <p class="text-center text-[15px] leading-relaxed text-white/90" data-editable contenteditable="false">
+        <p class="text-center text-[15px] leading-relaxed text-white/90 flex-1" data-editable contenteditable="false">
           청년은 <strong>연 2%</strong>,<br/>
           저소득층은 <strong>연 1%</strong> 금리로<br/>
           상환 부담을 낮춰 지원합니다.
@@ -1527,7 +1613,7 @@
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#FFD449" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
         </div>
-        <p class="text-center text-[15px] leading-relaxed text-white/90" data-editable contenteditable="false">
+        <p class="text-center text-[15px] leading-relaxed text-white/90 flex-1" data-editable contenteditable="false">
           연체 없이 상환을 완료하면<br/>
           납부한 이자 전액 환급과<br/>
           성실상환 축하선물을 제공합니다.
@@ -2191,21 +2277,25 @@
         </div>
         <ul class="doc-list">
           <li>
-            <a href="assets/forms/든든기금2_보증금대출_신청안내문.pdf" download class="doc-link" data-doc-name="신청 안내문">
-              <span class="doc-icon">📄</span>
-              <span class="doc-text"><strong>신청 안내문</strong> 다시 한번 확인 후 작성</span>
-              <span class="doc-action">⬇</span>
-            </a>
+            <div class="doc-row">
+              <span class="doc-row-text"><strong>신청 안내문</strong> 다시 한번 확인 후 작성</span>
+              <span class="doc-row-formats">
+                <a href="assets/forms/application-guide.pdf" download="든든기금2_보증금대출_신청안내문.pdf" class="doc-format-btn doc-format-btn--pdf" data-doc-name="신청 안내문 (PDF)" aria-label="신청 안내문 PDF 다운로드"><span class="doc-format-icon">📄</span>PDF</a>
+                <a href="assets/forms/application-guide.doc" download="든든기금2_보증금대출_신청안내문.doc" class="doc-format-btn doc-format-btn--doc" data-doc-name="신청 안내문 (DOC)" aria-label="신청 안내문 DOC 다운로드"><span class="doc-format-icon">📝</span>DOC</a>
+              </span>
+            </div>
           </li>
           <li>
-            <a href="assets/forms/든든기금2_보증금대출_신청서_양식_.doc" download class="doc-link" data-doc-name="보증금 대출사업 신청서">
-              <span class="doc-icon">📄</span>
-              <span class="doc-text">보증금 대출사업 신청서 <span class="opacity-75">(해당 양식)</span></span>
-              <span class="doc-action">⬇</span>
-            </a>
+            <div class="doc-row">
+              <span class="doc-row-text">보증금 대출사업 신청서 <span class="opacity-75">(해당 양식)</span></span>
+              <span class="doc-row-formats">
+                <a href="assets/forms/application-form.pdf" download="든든기금2_보증금대출_신청서_양식.pdf" class="doc-format-btn doc-format-btn--pdf" data-doc-name="보증금 대출사업 신청서 (PDF)" aria-label="보증금 대출사업 신청서 PDF 다운로드"><span class="doc-format-icon">📄</span>PDF</a>
+                <a href="assets/forms/application-form.doc" download="든든기금2_보증금대출_신청서_양식.doc" class="doc-format-btn doc-format-btn--doc" data-doc-name="보증금 대출사업 신청서 (DOC)" aria-label="보증금 대출사업 신청서 DOC 다운로드"><span class="doc-format-icon">📝</span>DOC</a>
+              </span>
+            </div>
           </li>
         </ul>
-        <p class="doc-note">파일을 클릭하면 양식을 다운로드합니다.</p>
+        <p class="doc-note">원하는 형식의 버튼을 클릭하면 다운로드됩니다.</p>
       </div>
 
       <!-- 02 공통서류 -->
@@ -2252,7 +2342,7 @@
          style="background: white; border: 1.5px solid var(--secondary); box-shadow: 0 6px 18px rgba(255, 102, 51, 0.10);">
       <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--secondary)] text-white text-base font-bold flex-shrink-0">⚠</span>
       <span class="text-sm md:text-[15px] text-[var(--ink)] flex-1 min-w-0" data-editable contenteditable="false">
-        제출서류는 신청 유형과 소득 상황에 따라 달라질 수 있습니다. 반드시 <strong class="text-[var(--secondary)]">공고문 및 신청서 작성 안내문</strong>을 확인한 뒤 제출해 주세요.
+        제출서류는 신청 유형과 소득 상황에 따라 달라질 수 있습니다. 반드시 <a href="assets/forms/notice-2026-01.pdf" download="제2026-01호_주거취약계층_주거복지기금_대출지원사업_공고.pdf" class="doc-link-inline" data-doc-name="공고문"><strong>공고문</strong><svg class="doc-link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></a> 및 <a href="assets/forms/application-guide.pdf" download="든든기금2_보증금대출_신청안내문.pdf" class="doc-link-inline" data-doc-name="신청 안내문"><strong>신청서 작성 안내문</strong><svg class="doc-link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></a>을 확인한 뒤 제출해 주세요.
       </span>
     </div>
   </div>
