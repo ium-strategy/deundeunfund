@@ -1341,11 +1341,11 @@
   <!-- ===== HEADER (개선: 좌측 로고 2줄 + 중앙 메뉴 + 우측 이메일 문의) ===== -->
   <header class="max-w-[1280px] mx-auto px-5 md:px-8 pt-6 flex items-center justify-between relative z-10">
     <a href="#" class="flex items-center gap-3" data-editable contenteditable="false">
-      <!-- 로고 이미지: assets/logo.png 파일을 업로드하면 자동으로 이 자리에 표시됩니다. 파일이 없으면 아래 기본 로고가 표시됩니다. 크기 조정은 아래 img 태그의 class 숫자를 변경하세요. -->
-      <img src="assets/logo.png" alt="든든한주거복지기금 대출지원사업"
-           class="h-9 md:h-11 w-auto" style="display:none;"
+      <!-- 로고 이미지: SVG 우선, PNG 폴백, 모두 실패 시 텍스트 로고 표시 -->
+      <img src="assets/logo.svg" alt="든든한주거복지기금 대출지원사업"
+           class="h-9 md:h-11 lg:h-12 w-auto" style="display:none;"
            onload="this.style.display='block'; document.getElementById('headerLogoFallback').style.display='none';"
-           onerror="this.style.display='none';" />
+           onerror="this.onerror=null; this.src='assets/logo.png';" />
       <!-- 기본 로고 (이미지 없을 때 표시) -->
       <div id="headerLogoFallback" class="flex items-center gap-3">
         <div class="w-11 h-11 rounded-2xl bg-white shadow-md flex items-center justify-center">
@@ -1379,11 +1379,11 @@
       <!-- 헤더 -->
       <div class="flex items-center justify-between px-5 py-5 border-b border-[var(--line)]">
         <div class="flex items-center gap-2.5">
-          <!-- 로고 이미지 (assets/logo.png 있으면 표시) -->
-          <img src="assets/logo.png" alt="든든한주거복지기금 대출지원사업"
+          <!-- 로고 이미지: SVG 우선, PNG 폴백, 모두 실패 시 텍스트 로고 표시 -->
+          <img src="assets/logo.svg" alt="든든한주거복지기금 대출지원사업"
                class="h-8 w-auto" style="display:none;"
-               onload="this.style.display='block'; document.getElementById('mobileLogoFallback').style.display='flex';"
-               onerror="this.style.display='none';" />
+               onload="this.style.display='block'; document.getElementById('mobileLogoFallback').style.display='none';"
+               onerror="this.onerror=null; this.src='assets/logo.png';" />
           <div id="mobileLogoFallback" class="flex items-center gap-2.5">
             <div class="w-9 h-9 rounded-xl bg-[var(--primary-tint)] flex items-center justify-center">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9z" fill="#000096"/></svg>
