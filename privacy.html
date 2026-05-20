@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>개인정보처리방침 | 든든한주거복지기금</title>
+<meta name="description" content="든든한주거복지기금 대출지원사업의 개인정보처리방침입니다. 개인정보의 수집·이용·제공·보유기간 및 정보주체의 권리에 관한 사항을 안내합니다.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://safehome.warmfund.net/privacy.html">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="mask-icon" href="assets/favicon.svg" color="#3333ab">
+
+<style>
+  @font-face {
+    font-family: 'KoreaInstituteOfMachineryAndMaterials';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+  }
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+  :root {
+    --primary: #000096;
+    --primary-tint: #E6E6F5;
+    --secondary: #FF6633;
+    --secondary-tint: #FFE7DC;
+    --bg: #F8F9FA;
+    --ink: #0E1230;
+    --ink-2: #4A4F73;
+    --ink-3: #8990AE;
+    --line: #E7E9F2;
+    --shadow-1: 0 8px 24px rgba(15, 18, 60, 0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-display { font-family: 'KoreaInstituteOfMachineryAndMaterials', 'Pretendard', sans-serif; }
+
+  /* 헤더 */
+  .site-header {
+    background: white;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .header-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo-link img { height: 38px; width: auto; display: block; }
+  .home-btn {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    transition: background .15s, border-color .15s;
+  }
+  .home-btn:hover { background: var(--bg); border-color: var(--primary-tint); }
+
+  /* 본문 */
+  .container { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+  .page-title {
+    font-size: 30px;
+    color: var(--primary);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .page-lead {
+    font-size: 15px;
+    color: var(--ink-2);
+    margin-bottom: 12px;
+  }
+  .effective-date {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary);
+    background: var(--secondary-tint);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 36px;
+  }
+
+  /* 목차 */
+  .toc {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-1);
+  }
+  .toc h2 { font-size: 15px; color: var(--ink); margin-bottom: 14px; }
+  .toc ol { list-style: none; counter-reset: toc; columns: 2; column-gap: 32px; }
+  .toc li { counter-increment: toc; margin-bottom: 8px; break-inside: avoid; }
+  .toc a {
+    font-size: 14px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .toc a::before { content: counter(toc) ". "; color: var(--ink-3); font-weight: 600; }
+  .toc a:hover { color: var(--secondary); }
+
+  /* 조항 */
+  section.article { margin-bottom: 40px; scroll-margin-top: 90px; }
+  section.article > h2 {
+    font-size: 19px;
+    color: var(--primary);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    border-bottom: 2px solid var(--primary-tint);
+    letter-spacing: -0.01em;
+  }
+  section.article > h2 .num {
+    display: inline-block;
+    min-width: 30px;
+    color: var(--secondary);
+  }
+  p { margin-bottom: 14px; color: var(--ink-2); font-size: 15px; }
+  .article ul { margin: 0 0 14px 4px; padding-left: 18px; }
+  .article li { font-size: 15px; color: var(--ink-2); margin-bottom: 8px; }
+  strong { color: var(--ink); font-weight: 700; }
+
+  /* 표 */
+  .table-wrap { overflow-x: auto; margin: 0 0 18px; border-radius: 12px; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 480px; }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--primary-tint); color: var(--primary); font-weight: 700; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  tr:last-child td { border-bottom: none; }
+
+  /* 강조 박스 */
+  .note-box {
+    background: var(--secondary-tint);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 0 0 18px;
+    font-size: 14px;
+    color: #b3401a;
+  }
+  .info-box {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  .info-box .label { font-size: 13px; color: var(--ink-3); }
+  .info-box .value { font-size: 15px; color: var(--ink); font-weight: 600; margin-bottom: 12px; }
+  .info-box .value:last-child { margin-bottom: 0; }
+
+  /* 운영자 수정 안내 (배포 전 삭제) */
+  .editor-note {
+    background: #FFF8E1;
+    border: 1px dashed #E0A800;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: #856404;
+  }
+  .editor-note strong { color: #6b5200; }
+  mark { background: #FFE7DC; color: #b3401a; padding: 0 4px; border-radius: 3px; font-weight: 600; }
+
+  /* 푸터 */
+  .site-footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.7);
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 13px;
+  }
+  .site-footer a { color: rgba(255,255,255,0.9); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .page-title { font-size: 24px; }
+    .toc ol { columns: 1; }
+    .container { padding: 32px 18px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo-link" aria-label="든든한주거복지기금 홈">
+      <img src="assets/logo.svg" alt="든든한주거복지기금">
+    </a>
+    <a href="index.html" class="home-btn">← 메인으로</a>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="editor-note">
+    <strong>⚠ 운영자 안내 (배포 전 반드시 검토·삭제하세요):</strong> 아래 <mark>주황색 표시</mark> 부분은 실제 운영 정보에 맞게 확인·수정이 필요합니다. 개인정보처리방침은 법적 효력이 있는 문서이므로, 게시 전 운영기관(나눔과미래)의 개인정보 보호책임자 또는 법률 검토를 받으시길 권장합니다. 이 안내 박스(editor-note)는 배포 전 삭제하세요.
+  </div>
+
+  <h1 class="page-title font-display">개인정보처리방침</h1>
+  <p class="page-lead">
+    사단법인 나눔과미래(이하 '재단')는 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고
+    이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 다음과 같이 개인정보처리방침을 수립·공개합니다.
+  </p>
+  <span class="effective-date">시행일: <mark>2026년 6월 1일</mark></span>
+
+  <nav class="toc" aria-label="목차">
+    <h2>목차</h2>
+    <ol>
+      <li><a href="#a1">개인정보의 처리 목적</a></li>
+      <li><a href="#a2">수집하는 개인정보 항목</a></li>
+      <li><a href="#a3">개인정보의 처리 및 보유기간</a></li>
+      <li><a href="#a4">개인정보의 제3자 제공</a></li>
+      <li><a href="#a5">개인정보 처리의 위탁</a></li>
+      <li><a href="#a6">정보주체의 권리·의무 및 행사방법</a></li>
+      <li><a href="#a7">개인정보의 파기 절차 및 방법</a></li>
+      <li><a href="#a8">개인정보의 안전성 확보조치</a></li>
+      <li><a href="#a9">개인정보 자동 수집장치(쿠키)</a></li>
+      <li><a href="#a10">개인정보 보호책임자</a></li>
+      <li><a href="#a11">권익침해 구제방법</a></li>
+      <li><a href="#a12">처리방침의 변경</a></li>
+    </ol>
+  </nav>
+
+  <section class="article" id="a1">
+    <h2><span class="num">1.</span>개인정보의 처리 목적</h2>
+    <p>재단은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.</p>
+    <ul>
+      <li>주거취약계층 주거복지기금 대출지원사업 <strong>지원대상자 선정 심사 및 결과 통보</strong> 등 행정 처리</li>
+      <li>대출의 <strong>설정·유지·이행·관리</strong></li>
+      <li>대내외 <strong>사업 홍보 및 자료 기록</strong>에 관한 사항</li>
+      <li>민원사무 처리 및 고충 응대</li>
+    </ul>
+  </section>
+
+  <section class="article" id="a2">
+    <h2><span class="num">2.</span>수집하는 개인정보 항목</h2>
+    <p>재단은 대출지원사업 신청·심사·관리를 위하여 다음의 개인정보를 수집·처리합니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>수집 항목</th><th>수집 방법</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>필수항목</td>
+            <td>성명, 생년월일, 성별, 연락처(휴대폰·비상연락처), 이메일, 주소, 가구유형, 고유식별정보(주민등록번호 등)</td>
+            <td rowspan="3">신청서 및 제출서류(이메일·우편) 접수</td>
+          </tr>
+          <tr>
+            <td>재정·자격 정보</td>
+            <td>소득·자산·부채 현황, 임대차계약 정보, 건강보험 자격·납부 정보, 수급 자격 정보 등 신청자의 재정상황</td>
+          </tr>
+          <tr>
+            <td>자동 수집항목</td>
+            <td>접속 IP, 쿠키, 방문 일시, 서비스 이용 기록, 기기·브라우저 정보 (Google Analytics를 통해 자동 수집)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note-box">
+      ※ 재단은 만 14세 미만 아동의 개인정보를 수집하지 않습니다. 고유식별정보(주민등록번호 등)는 법령에 근거가 있거나 정보주체의 별도 동의가 있는 경우에만 처리합니다.
+    </div>
+  </section>
+
+  <section class="article" id="a3">
+    <h2><span class="num">3.</span>개인정보의 처리 및 보유기간</h2>
+    <p>재단은 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시 동의받은 보유·이용기간 내에서 개인정보를 처리·보유합니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>보유기간</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>지원대상자(선정)</td><td>신청일로부터 <strong>사업종료 시</strong>까지</td></tr>
+          <tr><td>미대상자(미선정)</td><td>신청일로부터 <strong>1년</strong> (이후 지체없이 파기)</td></tr>
+          <tr><td>미선정자 제출서류</td><td>2차 심의일로부터 <strong>7일 이내 완전 폐기</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>관계 법령에 따라 보존할 필요가 있는 경우 해당 법령에서 정한 기간 동안 보관할 수 있습니다.</p>
+  </section>
+
+  <section class="article" id="a4">
+    <h2><span class="num">4.</span>개인정보의 제3자 제공</h2>
+    <p>재단은 정보주체의 개인정보를 제1조(처리 목적)에서 명시한 범위 내에서만 처리하며, 정보주체의 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>제공받는 자</th><th>제공 목적</th><th>제공 항목</th><th>보유·이용기간</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><mark>금융산업공익재단</mark></td>
+            <td>지원대상자 선정 심사 및 결과 통보, 대출의 설정·유지·이행·관리</td>
+            <td>성명, 고유식별정보, 연락처, 주소, 재정상황 등</td>
+            <td>지원대상자: 사업종료 시까지<br>미대상자: 신청일로부터 1년</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="article" id="a5">
+    <h2><span class="num">5.</span>개인정보 처리의 위탁</h2>
+    <p>재단은 원활한 개인정보 업무처리를 위하여 개인정보 처리업무를 위탁하는 경우, 위탁계약 체결 시 「개인정보 보호법」 제26조에 따라 위탁업무 수행목적 외 개인정보 처리금지, 안전성 확보조치, 재위탁 제한 등을 문서에 명시하고 수탁자가 개인정보를 안전하게 처리하는지 감독합니다.</p>
+    <div class="note-box">
+      ※ <mark>현재 위탁하는 개인정보 처리업무가 있는 경우 수탁자·위탁업무 내용을 이 항목에 기재하세요. 없는 경우 "현재 위탁하는 업무가 없습니다."로 표기.</mark>
+    </div>
+  </section>
+
+  <section class="article" id="a6">
+    <h2><span class="num">6.</span>정보주체와 법정대리인의 권리·의무 및 행사방법</h2>
+    <p>정보주체는 재단에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.</p>
+    <ul>
+      <li>개인정보 <strong>열람</strong> 요구</li>
+      <li>오류 등이 있을 경우 <strong>정정</strong> 요구</li>
+      <li>개인정보 <strong>삭제</strong> 요구</li>
+      <li>개인정보 처리정지 요구</li>
+    </ul>
+    <p>권리 행사는 「개인정보 보호법」 시행령 제41조 제1항에 따라 서면, 전자우편 등을 통하여 하실 수 있으며, 재단은 이에 대해 지체없이 조치하겠습니다. 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수도 있습니다.</p>
+  </section>
+
+  <section class="article" id="a7">
+    <h2><span class="num">7.</span>개인정보의 파기 절차 및 방법</h2>
+    <p>재단은 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체없이 해당 개인정보를 파기합니다.</p>
+    <ul>
+      <li><strong>파기 절차:</strong> 보유기간이 경과하거나 처리목적이 달성된 개인정보는 내부 방침 및 관련 법령에 따라 일정 기간 저장된 후 파기됩니다.</li>
+      <li><strong>파기 방법:</strong> 전자적 파일 형태의 정보는 복구·재생할 수 없는 기술적 방법을 사용하여 삭제하며, 종이 문서는 분쇄하거나 소각하여 파기합니다.</li>
+    </ul>
+  </section>
+
+  <section class="article" id="a8">
+    <h2><span class="num">8.</span>개인정보의 안전성 확보조치</h2>
+    <p>재단은 개인정보의 안전성 확보를 위하여 다음과 같은 조치를 취하고 있습니다.</p>
+    <ul>
+      <li><strong>관리적 조치:</strong> 내부관리계획 수립·시행, 개인정보 취급 담당자 최소화 및 교육</li>
+      <li><strong>기술적 조치:</strong> 개인정보처리시스템 접근권한 관리, 접근통제시스템 설치, 고유식별정보 등의 암호화, 보안프로그램 설치</li>
+      <li><strong>물리적 조치:</strong> 전산실·자료보관실 등의 접근통제</li>
+    </ul>
+  </section>
+
+  <section class="article" id="a9">
+    <h2><span class="num">9.</span>개인정보 자동 수집장치의 설치·운영 및 거부</h2>
+    <p>재단은 이용자의 웹사이트 이용 현황을 분석하고 서비스를 개선하기 위하여 쿠키(cookie)와 웹 분석도구를 사용합니다. 쿠키는 웹사이트 서버가 이용자의 브라우저에 보내는 소량의 정보로 이용자의 기기에 저장됩니다.</p>
+
+    <p><strong>가. 웹사이트 이용 분석 (Google Analytics 4)</strong></p>
+    <p>재단은 웹사이트 방문 및 이용 통계 분석을 위해 구글(Google LLC)의 Google Analytics 4(GA4) 서비스를 이용합니다. 이 과정에서 다음의 정보가 자동으로 수집·처리됩니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>내용</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>수집 항목</td><td>접속 기기·브라우저 정보, 운영체제, 접속 IP의 일부(익명화 처리), 방문 일시, 페이지 이용 기록, 유입 경로, 클릭·다운로드 등 이벤트 정보, 쿠키 식별자</td></tr>
+          <tr><td>수집 목적</td><td>웹사이트 방문자 통계 분석, 콘텐츠·서비스 개선, 신청 안내 효과 측정</td></tr>
+          <tr><td>수집 방법</td><td>이용자가 웹사이트 방문 시 쿠키 및 분석 스크립트를 통해 자동 수집</td></tr>
+          <tr><td>보관 기간</td><td><mark>최대 14개월</mark> (Google Analytics 데이터 보관 설정 기준, 이후 자동 삭제)</td></tr>
+          <tr><td>처리 위탁·국외이전</td><td>수집된 정보는 분석을 위해 구글(Google LLC)로 전송·처리되며, 구글의 서버는 국외에 소재할 수 있습니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note-box">
+      ※ 재단은 GA4에서 이용자의 성명·연락처 등 개인을 직접 식별할 수 있는 정보는 수집하지 않으며, IP 주소는 익명화되어 처리됩니다. GA4를 통해 수집된 정보는 광고·맞춤형 마케팅 목적으로는 이용하지 않습니다.
+    </div>
+
+    <p><strong>나. 쿠키 설치·운영 및 거부 방법</strong></p>
+    <p>이용자는 쿠키 저장을 거부하거나 분석도구의 데이터 수집을 차단할 수 있습니다.</p>
+    <ul>
+      <li><strong>브라우저 설정을 통한 거부</strong>
+        <br>· Chrome: 설정 → 개인정보 보호 및 보안 → 쿠키 및 기타 사이트 데이터
+        <br>· Edge: 설정 → 쿠키 및 사이트 권한 → 쿠키 및 저장된 데이터 관리
+        <br>· Safari: 환경설정 → 개인정보 보호 → 쿠키 및 웹사이트 데이터
+      </li>
+      <li><strong>Google Analytics 수집 거부</strong>: 구글에서 제공하는 차단 도구(<span style="word-break:break-all;">tools.google.com/dlpage/gaoptout</span>)를 설치하면 GA의 데이터 수집을 거부할 수 있습니다.</li>
+    </ul>
+    <p>다만 쿠키 저장을 거부할 경우 웹사이트 일부 기능 이용에 제한이 있을 수 있습니다.</p>
+  </section>
+
+  <section class="article" id="a10">
+    <h2><span class="num">10.</span>개인정보 보호책임자</h2>
+    <p>재단은 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.</p>
+    <div class="info-box">
+      <div class="label">개인정보 보호책임자</div>
+      <div class="value"><mark>성명 / 직책 (기재 필요)</mark></div>
+      <div class="label">운영기관</div>
+      <div class="value">사단법인 나눔과미래</div>
+      <div class="label">연락처</div>
+      <div class="value">02-925-2528 · warmfund@naver.com</div>
+      <div class="label">주소</div>
+      <div class="value">서울특별시 성북구 삼선교로22길 22, 502호</div>
+    </div>
+  </section>
+
+  <section class="article" id="a11">
+    <h2><span class="num">11.</span>권익침해 구제방법</h2>
+    <p>정보주체는 개인정보 침해로 인한 구제를 받기 위하여 아래의 기관에 분쟁해결이나 상담 등을 신청할 수 있습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>기관</th><th>연락처</th><th>홈페이지</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>개인정보분쟁조정위원회</td><td>1833-6972</td><td>www.kopico.go.kr</td></tr>
+          <tr><td>개인정보침해신고센터</td><td>(국번없이) 118</td><td>privacy.kisa.or.kr</td></tr>
+          <tr><td>대검찰청 사이버수사과</td><td>(국번없이) 1301</td><td>www.spo.go.kr</td></tr>
+          <tr><td>경찰청 사이버수사국</td><td>(국번없이) 182</td><td>ecrm.police.go.kr</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="article" id="a12">
+    <h2><span class="num">12.</span>개인정보처리방침의 변경</h2>
+    <p>이 개인정보처리방침은 시행일로부터 적용되며, 법령 및 방침에 따른 변경내용의 추가, 삭제 및 정정이 있는 경우에는 변경사항의 시행 7일 전부터 공지사항을 통하여 고지할 것입니다.</p>
+    <ul>
+      <li>공고일자: <mark>2026년 5월 25일</mark></li>
+      <li>시행일자: <mark>2026년 6월 1일</mark></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 든든한주거복지기금 · 사단법인 나눔과미래 · 금융산업공익재단</p>
+  <p style="margin-top:8px;"><a href="index.html">메인으로 돌아가기</a></p>
+</footer>
+
+</body>
+</html>
