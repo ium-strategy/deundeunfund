@@ -1044,6 +1044,85 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color: #FF6633 !important;
   }
 
+  /* ===== FAQ 카테고리 그룹 ===== */
+  .faq-group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--ink-1, #1a1a2e);
+    margin: 36px 0 14px;
+  }
+  .faq-group-title:first-of-type { margin-top: 8px; }
+  .faq-group-title .faq-group-num {
+    width: 30px; height: 30px;
+    border-radius: 999px;
+    background: var(--primary, #000096);
+    color: #fff;
+    font-size: 14px; font-weight: 800;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  /* ===== 전체 펼치기 / 접기 컨트롤 ===== */
+  .faq-controls {
+    display: flex; justify-content: flex-end; gap: 8px;
+    margin-top: 24px;
+  }
+  .faq-control-btn {
+    font-size: 13px; font-weight: 700;
+    padding: 8px 16px; border-radius: 999px;
+    border: 1.5px solid var(--primary, #000096);
+    color: var(--primary, #000096);
+    background: #fff; cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+  }
+  .faq-control-btn:hover {
+    background: var(--primary, #000096); color: #fff;
+  }
+
+  /* ===== FAQ 카테고리 탭바 ===== */
+  .faq-tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 36px;
+    padding: 6px;
+    background: var(--primary-tint, #e8e8ff);
+    border-radius: 999px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .faq-tab {
+    flex: 1 1 0;
+    min-width: max-content;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 18px;
+    border-radius: 999px;
+    color: var(--ink-2, #5a5a72);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background .25s ease, color .25s ease, box-shadow .25s ease;
+  }
+  .faq-tab.is-active {
+    background: #fff;
+    color: var(--primary, #000096);
+    box-shadow: 0 4px 12px rgba(0,0,150,.12);
+  }
+  .faq-tab .faq-tab-count {
+    font-size: 12px;
+    opacity: .7;
+    margin-left: 4px;
+  }
+  /* 탭으로 숨겨진 그룹 */
+  .faq-panel[hidden] { display: none; }
+  @media (max-width: 480px) {
+    .faq-tab { font-size: 13px; padding: 11px 14px; }
+  }
+
   /* Edit toggle */
   .edit-mode-on [data-editable] {
     box-shadow: inset 0 0 0 1.5px rgba(255,102,51,0.4);
@@ -1748,7 +1827,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="text-center pt-2 border-t border-white/60">
             <div class="text-xs font-bold text-[var(--ink-3)] mb-1">대출 기간</div>
-            <div class="text-sm font-semibold text-[var(--ink)]">최대 31개월 <span class="text-[var(--ink-3)] font-normal">(약정 시 협의)</span></div>
+            <div class="text-center"><div class="text-[15px] font-semibold text-[var(--ink)]">24개월~31개월</div><div class="text-[12px] text-[var(--ink-3)] font-normal mt-0.5">(약정 시 협의, 최종상환일 2029년 1월 31일)</div></div>
           </div>
         </div>
       </div>
@@ -1816,7 +1895,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="col-span-10">
             <div class="bg-[var(--bg)] rounded-2xl py-3 px-4 relative">
               <span class="chip tag-common absolute left-4 top-1/2 -translate-y-1/2">공통 적용</span>
-              <div class="text-[15px] text-center">최대 31개월 <span class="text-[var(--ink-3)]">(약정 시 협의)</span></div>
+              <div class="text-center"><span class="text-[17px] font-semibold text-[var(--ink)]">24개월~31개월</span> <span class="text-[13px] text-[var(--ink-3)]">(약정 시 협의, 최종상환일 2029년 1월 31일)</span></div>
             </div>
           </div>
         </div>
@@ -2408,84 +2487,242 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="text-[var(--ink-2)] mt-4 text-[15px]" data-editable contenteditable="false">신청 전 꼭 확인해 주세요. 자주 문의하시는 내용을 한눈에 정리했습니다.</p>
     </div>
 
-    <div class="mt-10 space-y-3">
-      <details class="balloon bg-white p-5 md:p-6">
-        <summary class="flex items-start justify-between gap-4">
-          <div>
-            <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
-            <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">생활비 목적으로도 신청할 수 있나요?</span>
-          </div>
-          <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
-        </summary>
-        <p class="mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
-          아니요. 이 사업은 신규 임차보증금 또는 기존 주택 재계약 시 증액된 보증금 마련 목적에 한해 신청할 수 있습니다. 생활비, 기존 대출 상환 목적의 신청은 불가합니다.
-        </p>
-      </details>
+    <!-- 카테고리 탭바 -->
+    <div class="faq-tabs" role="tablist">
+      <button type="button" class="faq-tab is-active" data-faq-tab="cat1" role="tab" aria-selected="true">신청 자격<span class="faq-tab-count">5</span></button>
+      <button type="button" class="faq-tab" data-faq-tab="cat2" role="tab" aria-selected="false">대출 조건<span class="faq-tab-count">3</span></button>
+      <button type="button" class="faq-tab" data-faq-tab="cat3" role="tab" aria-selected="false">서류 · 접수<span class="faq-tab-count">7</span></button>
+    </div>
 
-      <details class="balloon bg-white p-5 md:p-6">
-        <summary class="flex items-start justify-between gap-4">
-          <div>
-            <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
-            <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">재계약하는 경우에도 신청할 수 있나요?</span>
-          </div>
-          <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
-        </summary>
-        <p class="mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
-          네. 기존 주택을 재계약하면서 보증금이 증액된 경우에는 신청할 수 있습니다. 단, 증빙 서류를 신청서와 함께 제출이 필요합니다.
-        </p>
-      </details>
+    <!-- 전체 펼치기 / 접기 -->
+    <div class="faq-controls">
+      <button type="button" class="faq-control-btn" id="faqExpandAll">전체 펼치기</button>
+      <button type="button" class="faq-control-btn" id="faqCollapseAll">전체 접기</button>
+    </div>
 
-      <details class="balloon bg-white p-5 md:p-6">
-        <summary class="flex items-start justify-between gap-4">
-          <div>
-            <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
-            <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">전국 어디서나 신청할 수 있나요?</span>
-          </div>
-          <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
-        </summary>
-        <p class="mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
-          네. 이 사업은 전국 단위로 운영됩니다. 다만 신청 자격과 제출서류는 공고문을 반드시 확인해 주세요.
-        </p>
-      </details>
+    <div class="mt-4" id="faqList">
 
-      <details class="balloon bg-white p-5 md:p-6">
-        <summary class="flex items-start justify-between gap-4">
-          <div>
-            <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
-            <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">이메일로만 제출해야 하나요?</span>
-          </div>
-          <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
-        </summary>
-        <p class="mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
-          준비한 서류는 이메일 또는 우편으로 제출할 수 있습니다. 자세한 제출처는 신청방법 안내와 공고문을 확인해 주세요.
-        </p>
-      </details>
+      <!-- ===== 그룹 1. 신청 자격 ===== -->
+      <div class="faq-panel space-y-3" data-faq-panel="cat1" role="tabpanel">
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">신청 자격에 나이 제한이 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            <b style="color:var(--primary);">연령 제한은 없으며, 내국인(대한민국 국적자)에 한해 신청 가능</b>합니다.
+          </p>
+        </details>
 
-      <details class="balloon bg-white p-5 md:p-6">
-        <summary class="flex items-start justify-between gap-4">
-          <div>
-            <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
-            <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">신청하면 모두 지원받을 수 있나요?</span>
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">다른 대출과 중복으로 신청할 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <div class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            <p>네, <b style="color:var(--primary);">다른 대출과 중복 신청이 가능</b>합니다. 청년의 경우 <b style="color:var(--primary);">본인부담분(전체 보증금에서 다른 대출을 뺀 금액)의 50%까지 신청</b>할 수 있습니다.</p>
+            <div class="faq-box mt-3 p-4 rounded-xl" style="background: var(--primary-tint);">
+              <p class="font-bold mb-1">예시</p>
+              <p>보증금 5,000만 원 중 버팀목 대출로 4,000만 원을 받은 경우, 본인부담분은 1,000만 원입니다. 이 금액의 50%인 <b>500만 원</b>까지 신청 가능합니다.</p>
+            </div>
           </div>
-          <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
-        </summary>
-        <p class="mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
-          아닙니다. 신청 자격 충족 여부, 제출서류 검토, 심사 결과에 따라 최종 지원 여부가 결정됩니다. 또한 예산 범위 내에서 지원이 진행됩니다.
-        </p>
-      </details>
+        </details>
 
-      <details class="balloon bg-white p-5 md:p-6">
-        <summary class="flex items-start justify-between gap-4">
-          <div>
-            <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
-            <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">성실상환 혜택은 무엇인가요?</span>
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">다른 대출을 연체 중이거나 채권추심이 진행 중인데 신청할 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            현재 다른 대출 연체가 많거나 채권추심(빚 상환 독촉 절차)이 진행 중인 경우에는 선정 가능성이 낮습니다. 신청 시 그 사유를 소명할 수 있어야 하며, <b style="color:var(--primary);">매월 상환이 가능한 상태</b>여야 합니다.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">어떤 용도로 신청할 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            <b style="color:var(--primary);">보증금 용도로만 신청 가능</b>합니다. 월세, 이사비, 생활비, 기존 대출 대환(기존 대출을 새 대출로 갈아타는 것) 용도로는 신청할 수 없습니다.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">전국 어디서나 신청할 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            네. 이 사업은 <b style="color:var(--primary);">전국 단위로 운영</b>됩니다. 다만 신청 자격과 제출서류는 공고문을 반드시 확인해 주세요.
+          </p>
+        </details>
+      </div>
+      <!-- /그룹 1 -->
+
+      <!-- ===== 그룹 2. 대출 조건 ===== -->
+      <div class="faq-panel space-y-3" data-faq-panel="cat2" role="tabpanel" hidden>
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">대출은 언제부터 받을 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            대상자로 선정되면 <b style="color:var(--primary);">2026년 7월 초부터 대출이 가능</b>합니다. 따라서 7월 이후 입주 예정이거나 보증금 증액이 예정된 분이 신청할 수 있습니다. 다만 신청자 모두가 선정되는 것은 아니므로, 선정되지 않을 가능성도 함께 고려해 주시기 바랍니다.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">신청하면 모두 지원받을 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            아닙니다. <b style="color:var(--primary);">신청 자격 충족 여부, 제출서류 검토, 심사 결과에 따라 최종 지원 여부가 결정</b>됩니다. 또한 예산 범위 내에서 지원이 진행됩니다.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">성실상환 혜택은 무엇인가요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            <b style="color:var(--primary);">연체 없이 상환을 완료하면</b> 납부한 이자 전액 환급과 함께 성실상환 축하 혜택이 제공됩니다.
+          </p>
+        </details>
+      </div>
+      <!-- /그룹 2 -->
+
+      <!-- ===== 그룹 3. 서류 · 접수 ===== -->
+      <div class="faq-panel space-y-3" data-faq-panel="cat3" role="tabpanel" hidden>
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">보증금 증액으로 신청하려면 어떤 서류가 필요한가요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            현재 <b style="color:var(--primary);">임대차계약서(집을 빌릴 때 작성한 계약서)</b>와 함께, <b style="color:var(--primary);">보증금 증액을 확인할 수 있는 서류(청구서, 공문 등)</b>를 제출하셔야 합니다.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">재계약하는 경우에도 신청할 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            네. 기존 주택을 재계약하면서 <b style="color:var(--primary);">보증금이 증액된 경우에는 신청할 수 있습니다.</b> 단, 증빙 서류를 신청서와 함께 제출이 필요합니다.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">'대출정보조회서'는 어떻게 발급받나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <div class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            <p>계좌정보통합관리서비스에서 공동인증서 로그인 및 휴대폰 인증을 통해 확인할 수 있습니다. 만약 발급이 어려운 경우, 한국신용정보원에 안내된 방법 중 하나를 선택하여 해당 서류를 제출하시면 됩니다.</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <a href="https://www.payinfo.or.kr/payinfo.html" target="_blank" rel="noopener noreferrer"
+                 class="faq-link inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-white" style="background: var(--primary);">
+                계좌정보통합관리서비스 바로가기 &rarr;
+              </a>
+              <a href="https://www.kcredit.or.kr:1441/fnncCnsmSprt/summary.do" target="_blank" rel="noopener noreferrer"
+                 class="faq-link inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-white" style="background: var(--secondary);">
+                한국신용정보원 바로가기 &rarr;
+              </a>
+            </div>
           </div>
-          <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
-        </summary>
-        <p class="mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
-          연체 없이 상환을 완료하면 납부한 이자 전액 환급과 함께 성실상환 축하 혜택이 제공됩니다.
-        </p>
-      </details>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">신청서 작성이나 서류 준비가 어려운데 도움받을 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            가까운 <b style="color:var(--primary);">주거복지센터나 사회복지관 등 사회복지 관련 기관을 방문</b>하셔서 도움을 요청하시면 좋겠습니다.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">서류는 이메일로만 제출해야 하나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            준비한 서류는 이메일 또는 우편으로 제출할 수 있습니다. 자세한 제출처는 신청방법 안내와 공고문을 확인해 주세요.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">우편으로 신청할 경우 마감일은 언제인가요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            우편 접수는 <b style="color:var(--primary);">6월 15일 소인분(우체국 도장이 찍힌 날짜 기준)까지</b> 인정됩니다.
+          </p>
+        </details>
+
+        <details class="balloon bg-white p-5 md:p-6">
+          <summary class="flex items-start justify-between gap-4">
+            <div>
+              <span class="text-[var(--secondary)] font-display mr-2">Q.</span>
+              <span class="font-bold text-[15px] md:text-base" data-editable contenteditable="false">생활비 목적으로도 신청할 수 있나요?</span>
+            </div>
+            <span class="faq-icon w-7 h-7 rounded-full bg-[var(--primary-tint)] text-[var(--primary)] font-bold inline-flex items-center justify-center flex-shrink-0">+</span>
+          </summary>
+          <p class="faq-answer mt-4 text-sm text-[var(--ink-2)] leading-relaxed pl-6" data-editable contenteditable="false">
+            아니요. 이 사업은 신규 임차보증금 또는 기존 주택 재계약 시 증액된 보증금 마련 목적에 한해 신청할 수 있습니다. <b style="color:var(--primary);">생활비, 기존 대출 상환 목적의 신청은 불가</b>합니다.
+          </p>
+        </details>
+      </div>
+      <!-- /그룹 3 -->
+
     </div>
   </div>
 </section>
@@ -3349,6 +3586,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
     });
   });
+
+  // FAQ 카테고리 탭 전환
+  const faqTabs = document.querySelectorAll('.faq-tab');
+  const faqPanels = document.querySelectorAll('.faq-panel');
+  function activeFaqPanel() {
+    return document.querySelector('.faq-panel:not([hidden])');
+  }
+  faqTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-faq-tab');
+      faqTabs.forEach(t => {
+        const on = t === tab;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      faqPanels.forEach(p => {
+        p.hidden = p.getAttribute('data-faq-panel') !== target;
+      });
+    });
+  });
+
+  // FAQ 전체 펼치기 / 접기 (현재 보이는 카테고리 기준)
+  const faqExpandAll = document.getElementById('faqExpandAll');
+  const faqCollapseAll = document.getElementById('faqCollapseAll');
+  if (faqExpandAll && faqCollapseAll) {
+    faqExpandAll.addEventListener('click', () => {
+      const panel = activeFaqPanel();
+      if (panel) panel.querySelectorAll('details').forEach(d => d.open = true);
+    });
+    faqCollapseAll.addEventListener('click', () => {
+      const panel = activeFaqPanel();
+      if (panel) panel.querySelectorAll('details').forEach(d => d.open = false);
+    });
+  }
 </script>
 
 </body>
