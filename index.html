@@ -1039,6 +1039,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   details[open] summary span,
   details[open] summary div,
   details[open] p { color: #ffffff !important; }
+  /* 펼친 상태 답변 영역 — 인라인 color 스타일까지 덮어 흰색 강제 (가독성) */
+  details[open] .faq-answer,
+  details[open] .faq-answer p,
+  details[open] .faq-answer span,
+  details[open] .faq-answer div,
+  details[open] .faq-answer li,
+  details[open] .faq-answer b,
+  details[open] .faq-answer strong { color: #ffffff !important; }
+  /* 펼친 상태 예시 박스 — 주황 위에서 가독성 확보 (반투명 흰 배경) */
+  details[open] .faq-answer .faq-box { background: rgba(255,255,255,0.18) !important; }
   details[open] .faq-icon {
     background: rgba(255,255,255,0.95) !important;
     color: #FF6633 !important;
@@ -2662,7 +2672,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 계좌정보통합관리서비스 바로가기 &rarr;
               </a>
               <a href="https://www.kcredit.or.kr:1441/fnncCnsmSprt/summary.do" target="_blank" rel="noopener noreferrer"
-                 class="faq-link inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-white" style="background: var(--secondary);">
+                 class="faq-link inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-white" style="background: var(--primary);">
                 한국신용정보원 바로가기 &rarr;
               </a>
             </div>
