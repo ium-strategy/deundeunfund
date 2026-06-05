@@ -158,6 +158,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<!-- JSZip: 양식 파일을 브라우저에서 ZIP으로 묶어 다운로드 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <!-- 카카오 JavaScript SDK (선택사항) - SDK 정확한 채팅 열기 사용 시 주석 해제
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
@@ -362,6 +364,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .doc-format-btn .doc-format-icon { font-size: 9px; }
   .doc-format-btn--pdf { color: #c0392b; }
   .doc-format-btn--doc { color: #2563eb; }
+
+  /* ===== 전체 양식 한 번에 받기 (ZIP) ===== */
+  .doc-zip-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--primary);
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: transform .15s, background .15s, box-shadow .15s;
+    line-height: 1.2;
+  }
+  .doc-zip-btn:hover {
+    background: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
+  .doc-zip-btn:active { transform: translateY(0); }
+  .doc-zip-btn:disabled { opacity: 0.65; cursor: progress; transform: none; box-shadow: none; }
+  .doc-zip-btn .doc-zip-icon { font-size: 15px; line-height: 1; }
 
   @media (max-width: 480px) {
     .doc-row { gap: 8px; padding: 10px 11px; }
@@ -1716,7 +1748,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="text-center pt-2 border-t border-white/60">
             <div class="text-xs font-bold text-[var(--ink-3)] mb-1">대출 기간</div>
-            <div class="text-center"><div class="text-[15px] font-semibold text-[var(--ink)]">24개월~31개월</div><div class="text-[12px] text-[var(--ink-3)] font-normal mt-0.5">(약정 시 협의, 최종상환일 2029년 1월 31일)</div></div>
+            <div class="text-sm font-semibold text-[var(--ink)]">최대 31개월 <span class="text-[var(--ink-3)] font-normal">(약정 시 협의)</span></div>
           </div>
         </div>
       </div>
@@ -1784,7 +1816,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="col-span-10">
             <div class="bg-[var(--bg)] rounded-2xl py-3 px-4 relative">
               <span class="chip tag-common absolute left-4 top-1/2 -translate-y-1/2">공통 적용</span>
-              <div class="text-center"><span class="text-[17px] font-semibold text-[var(--ink)]">24개월~31개월</span> <span class="text-[13px] text-[var(--ink-3)]">(약정 시 협의, 최종상환일 2029년 1월 31일)</span></div>
+              <div class="text-[15px] text-center">최대 31개월 <span class="text-[var(--ink-3)]">(약정 시 협의)</span></div>
             </div>
           </div>
         </div>
@@ -2310,7 +2342,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
           </li>
         </ul>
-        <p class="doc-note">원하는 형식의 버튼을 클릭하면 다운로드됩니다.</p>
+        <button type="button" class="doc-zip-btn" id="zipDownloadBtn" data-zip-name="든든기금2_보증금대출_신청양식.zip" aria-label="신청 안내문과 신청서 양식을 한 번에 다운로드">
+          <span class="doc-zip-icon">📦</span><span class="doc-zip-label">전체 양식 한 번에 받기 (ZIP)</span>
+        </button>
+        <p class="doc-note">개별 형식은 위 버튼, 전체는 ZIP으로 받으세요.</p>
       </div>
 
       <!-- 02 공통서류 -->
@@ -2819,6 +2854,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   });
 
+  // 전체 양식 ZIP 버튼 — JSZip으로 브라우저에서 즉석 생성
+  // 이미 올라가 있는 PDF 양식들을 받아 ZIP 하나로 묶어 다운로드한다.
+  // (서버 불필요 → GitHub Pages에서 동작. 원본 PDF만 교체하면 자동 반영)
+  const ZIP_FILES = [
+    { url: 'assets/forms/application-guide.pdf', name: '든든기금2_보증금대출_신청안내문.pdf' },
+    { url: 'assets/forms/application-form.pdf',  name: '든든기금2_보증금대출_신청서_양식.pdf' },
+  ];
+
+  const zipBtn = document.getElementById('zipDownloadBtn');
+  if (zipBtn) {
+    const zipLabel = zipBtn.querySelector('.doc-zip-label');
+    const defaultLabel = zipLabel ? zipLabel.textContent : '';
+
+    zipBtn.addEventListener('click', async () => {
+      if (zipBtn.dataset.busy === '1') return; // 중복 클릭 방지
+      if (typeof JSZip === 'undefined') {
+        alert('ZIP 생성 도구를 불러오지 못했습니다.\n위의 PDF / DOC 버튼으로 개별 다운로드해 주세요.');
+        return;
+      }
+
+      zipBtn.dataset.busy = '1';
+      zipBtn.disabled = true;
+      if (zipLabel) zipLabel.textContent = '양식을 묶는 중…';
+
+      try {
+        const zip = new JSZip();
+        // 각 파일을 받아 ZIP에 추가
+        const results = await Promise.all(ZIP_FILES.map(async (f) => {
+          const res = await fetch(f.url);
+          if (!res.ok) throw new Error('파일 없음: ' + f.url);
+          return { name: f.name, blob: await res.blob() };
+        }));
+        results.forEach(r => zip.file(r.name, r.blob));
+
+        // ZIP 생성 후 다운로드
+        const content = await zip.generateAsync({ type: 'blob' });
+        const url = URL.createObjectURL(content);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = zipBtn.getAttribute('data-zip-name') || '신청양식.zip';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        if (typeof showToast === 'function') showToast('전체 양식 ZIP 다운로드 시작');
+      } catch (err) {
+        console.error('ZIP 생성 실패:', err);
+        alert('전체 양식을 묶는 중 문제가 발생했습니다.\n위의 PDF / DOC 버튼으로 개별 다운로드해 주세요.');
+      } finally {
+        zipBtn.dataset.busy = '';
+        zipBtn.disabled = false;
+        if (zipLabel) zipLabel.textContent = defaultLabel;
+      }
+    });
+  }
+
   // ===== 로고 SVG viewBox 자동 보정 (Hero + 하단 협력기관) =====
   // 원본 SVG는 일러스트레이터 아트보드 크기의 viewBox라서
   // 실제 그래픽 주변에 빈 여백이 많음 → getBBox()로 실제 경계를 측정해
@@ -3141,6 +3232,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     a.addEventListener('click', e => {
       const id = a.getAttribute('href');
       if (id.length > 1) {
+        // 모달용 해시(#modal-... 대상)는 스크롤 대신 모달 열기에 맡김
+        if (document.getElementById('modal-' + id.slice(1))) {
+          openModalById(id.slice(1));
+          return;
+        }
         const target = document.querySelector(id);
         if (target) {
           e.preventDefault();
@@ -3163,8 +3259,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (modal) {
       modal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
+      // URL에 해시 반영 (직접 공유·새로고침 시 같은 모달 열림)
+      if (location.hash !== '#' + modalKey) {
+        history.replaceState(null, '', '#' + modalKey);
+      }
     }
   }
+
+  // URL 해시(#income-130 등)에 해당하는 모달 열기
+  function openModalFromHash() {
+    const key = location.hash.replace('#', '');
+    if (key && document.getElementById('modal-' + key)) {
+      openModalById(key);
+    }
+  }
+  // 페이지 로드 시 해시 확인 + 해시 변경(공유 링크 클릭) 감지
+  window.addEventListener('load', openModalFromHash);
+  window.addEventListener('hashchange', openModalFromHash);
+
   document.querySelectorAll('[data-modal]').forEach(trigger => {
     trigger.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -3178,19 +3290,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
     });
   });
+  // 모달 닫기 공통 함수 (URL 해시도 함께 제거)
+  function closeModal(modalEl) {
+    if (modalEl) modalEl.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (location.hash) {
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  }
   // 닫기 버튼
   document.querySelectorAll('[data-modal-close]').forEach(btn => {
     btn.addEventListener('click', () => {
-      btn.closest('.modal-backdrop').classList.remove('is-open');
-      document.body.style.overflow = '';
+      closeModal(btn.closest('.modal-backdrop'));
     });
   });
   // 백드롭 클릭 시 닫기
   document.querySelectorAll('[data-modal-backdrop]').forEach(bd => {
     bd.addEventListener('click', (e) => {
       if (e.target === bd) {
-        bd.classList.remove('is-open');
-        document.body.style.overflow = '';
+        closeModal(bd);
       }
     });
   });
@@ -3199,6 +3317,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-backdrop.is-open').forEach(m => m.classList.remove('is-open'));
       document.body.style.overflow = '';
+      if (location.hash) {
+        history.replaceState(null, '', location.pathname + location.search);
+      }
     }
   });
 
