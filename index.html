@@ -1298,24 +1298,36 @@ wcs_do();
     50%      { transform: translate(20px, -25px) scale(1.08); }
   }
 
-  /* 클릭 가능한 강조 텍스트 (중위소득 등) — 점선 밑줄 + 호버 시 배경 */
+  /* 클릭 가능한 강조 텍스트 (중위소득 등) — 알약 버튼 + 액션 라벨 */
   .click-hint {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 10px 4px 12px;
+    gap: 7px;
+    padding: 3px 12px;
     border-radius: 999px;
-    font-weight: 700;
     font-size: 0.95em;
     background: var(--primary-tint);
     color: var(--primary);
     border: 1.5px solid transparent;
-    transition: all .2s ease;
-    line-height: 1.2;
+    transition: all .18s ease;
+    line-height: 1.35;
     white-space: nowrap;
-    position: relative;
+    vertical-align: middle;
+    max-width: 100%;
   }
+  .click-hint .ch-val { font-weight: 700; }
+  .click-hint .ch-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding-left: 8px;
+    border-left: 1px solid currentColor;
+    font-size: 0.8em;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  .click-hint .ch-action svg { width: 13px; height: 13px; flex-shrink: 0; }
   .click-hint:hover {
     background: var(--primary);
     color: white;
@@ -1332,40 +1344,16 @@ wcs_do();
     color: white;
     box-shadow: 0 4px 12px rgba(255, 102, 51, 0.25);
   }
-  /* 인포 아이콘 (₪) */
-  .click-hint::after {
-    content: "";
-    width: 16px;
-    height: 16px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.6);
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='4.5' r='1' fill='%23000096'/><path d='M7 7h2v5.5H7z' fill='%23000096'/></svg>");
-    background-size: 70% 70%;
-    background-repeat: no-repeat;
-    background-position: center;
-    flex-shrink: 0;
-    display: inline-block;
+  /* 1인 가구 예시 금액 서브텍스트 */
+  .income-eg {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.78em;
+    color: var(--ink-3);
+    line-height: 1.5;
   }
-  .click-hint:hover::after {
-    background-color: rgba(255, 255, 255, 0.95);
-  }
-  /* 미세한 "탭 가능" 펄스 효과 (3초마다 한 번) */
-  @keyframes hint-pulse {
-    0%, 92%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 150, 0); }
-    94% { box-shadow: 0 0 0 6px rgba(0, 0, 150, 0.15); }
-    96% { box-shadow: 0 0 0 10px rgba(0, 0, 150, 0); }
-  }
-  .click-hint {
-    animation: hint-pulse 4s ease-in-out infinite;
-  }
-  .click-hint.text-\[var\(--secondary\)\] {
-    animation-name: hint-pulse-orange;
-  }
-  @keyframes hint-pulse-orange {
-    0%, 92%, 100% { box-shadow: 0 0 0 0 rgba(255, 102, 51, 0); }
-    94% { box-shadow: 0 0 0 6px rgba(255, 102, 51, 0.20); }
-    96% { box-shadow: 0 0 0 10px rgba(255, 102, 51, 0); }
-  }
+  .income-eg b { font-weight: 600; color: var(--ink-2); }
+  .income-eg .yr { opacity: 0.6; }
 
   /* Modal */
   .modal-backdrop {
@@ -1506,6 +1494,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="hidden md:flex items-center gap-5 lg:gap-7 text-[13px] lg:text-[14px] font-bold text-[var(--ink-2)]">
       <a href="#condition" class="hover:text-[var(--primary)] transition">지원 내용</a>
+      <a href="#calculator" class="hover:text-[var(--primary)] transition">상환 계산기</a>
       <a href="#apply" class="hover:text-[var(--primary)] transition">신청 자격</a>
       <a href="#usage" class="hover:text-[var(--primary)] transition">사용 용도</a>
       <a href="#process" class="hover:text-[var(--primary)] transition">신청 방법</a>
@@ -1552,6 +1541,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" fill="#000096"/><path d="M3 9h18M9 4v16" stroke="white" stroke-width="1.5"/></svg>
           </span>
           <span>지원 내용</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="ml-auto text-[var(--ink-3)]"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#calculator" class="mobile-menu-link">
+          <span class="mobile-menu-icon" style="background: var(--primary-tint);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="2" width="16" height="20" rx="2" fill="#000096"/><rect x="7" y="6" width="10" height="3" rx="1" fill="white"/><rect x="7" y="12" width="3" height="3" rx="0.5" fill="white"/><rect x="10.5" y="12" width="3" height="3" rx="0.5" fill="white"/><rect x="14" y="12" width="3" height="3" rx="0.5" fill="white"/><rect x="7" y="16" width="3" height="3" rx="0.5" fill="white"/><rect x="10.5" y="16" width="3" height="3" rx="0.5" fill="white"/><rect x="14" y="16" width="3" height="3" rx="0.5" fill="white"/></svg>
+          </span>
+          <span>상환 계산기</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="ml-auto text-[var(--ink-3)]"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <a href="#apply" class="mobile-menu-link">
@@ -1800,8 +1796,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div>
             <div class="text-xs font-bold text-[var(--ink-3)] mb-2">신청 자격</div>
             <div class="space-y-2.5">
-              <div class="flex items-start gap-3"><span class="check check-blue flex-shrink-0">✓</span><span class="text-sm">만 19~39세 <span class="text-[var(--ink-3)] text-xs block mt-0.5 leading-relaxed">(2026년 기준 1987년 생일 이전,<br/>2007년 생일 이후)</span></span></div>
-              <div class="flex items-start gap-3"><span class="check check-blue flex-shrink-0">✓</span><span class="text-sm"><span class="click-hint text-[var(--primary)]" data-modal="income-130" role="button" tabindex="0" aria-label="중위소득 130% 이하 상세 표 보기">중위소득 130% 이하</span></span></div>
+              <div class="flex items-start gap-3"><span class="check check-blue flex-shrink-0">✓</span><span class="text-sm">만 19~39세 <span class="text-[var(--ink-3)] text-xs block mt-0.5 leading-relaxed">(2026년 기준 1987년 생일 이전, 2007년 생일 이후)</span></span></div>
+
+              <div class="flex items-start gap-3"><span class="check check-blue flex-shrink-0">✓</span><span class="text-sm"><span class="click-hint text-[var(--primary)]" data-modal="income-130" role="button" tabindex="0" aria-label="중위소득 130% 이하 — 가구원 수별 기준표 보기"><span class="ch-val">중위소득 130% 이하</span><span class="ch-action"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><rect x="2.2" y="3.2" width="11.6" height="9.6" rx="1.6"/><path d="M2.2 6.6h11.6M6.4 6.6v6.2"/></svg>가구별 기준표 ›</span></span><span class="income-eg"><b>1인 가구</b> 기준 월 3,334,000원 이하 <span class="yr">(2026년)</span></span></span></div>
               <div class="flex items-start gap-3"><span class="check check-blue flex-shrink-0">✓</span><span class="text-sm">무주택 세대주</span></div>
             </div>
           </div>
@@ -1822,7 +1819,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="text-xs font-bold text-[var(--ink-3)] mb-2">신청 자격</div>
             <div class="space-y-2.5">
               <div class="flex items-start gap-3"><span class="check flex-shrink-0">✓</span><span class="text-sm">무주택 세대주</span></div>
-              <div class="flex items-start gap-3"><span class="check flex-shrink-0">✓</span><span class="text-sm"><span class="click-hint text-[var(--secondary)]" data-modal="income-100" role="button" tabindex="0" aria-label="중위소득 100% 이하 상세 표 보기">중위소득 100% 이하</span></span></div>
+              <div class="flex items-start gap-3"><span class="check flex-shrink-0">✓</span><span class="text-sm"><span class="click-hint text-[var(--secondary)]" data-modal="income-100" role="button" tabindex="0" aria-label="중위소득 100% 이하 — 가구원 수별 기준표 보기"><span class="ch-val">중위소득 100% 이하</span><span class="ch-action"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><rect x="2.2" y="3.2" width="11.6" height="9.6" rx="1.6"/><path d="M2.2 6.6h11.6M6.4 6.6v6.2"/></svg>가구별 기준표 ›</span></span><span class="income-eg"><b>1인 가구</b> 기준 월 2,565,000원 이하 <span class="yr">(2026년)</span></span></span></div>
             </div>
           </div>
           <div class="border-t border-[var(--line)] pt-4 text-center">
@@ -1870,13 +1867,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="grid grid-cols-12 items-start gap-6 py-6 row-divider">
           <div class="col-span-2 text-sm font-bold text-[var(--ink-2)] text-center">신청 자격</div>
           <div class="col-span-5 space-y-2">
-            <div class="flex items-start gap-3"><span class="check check-blue">✓</span><span class="text-[15px]">만 19~39세 <span class="text-[var(--ink-3)] text-xs block mt-0.5 leading-relaxed">(2026년 기준 1987년 생일 이전,<br/>2007년 생일 이후)</span></span></div>
-            <div class="flex items-start gap-3"><span class="check check-blue">✓</span><span class="text-[15px]"><span class="click-hint text-[var(--primary)]" data-modal="income-130" role="button" tabindex="0" aria-label="중위소득 130% 이하 상세 표 보기">중위소득 130% 이하</span></span></div>
+            <div class="flex items-start gap-3"><span class="check check-blue">✓</span><span class="text-[15px]">만 19~39세 <span class="text-[var(--ink-3)] text-xs block mt-0.5 leading-relaxed">(2026년 기준 1987년 생일 이전, 2007년 생일 이후)</span></span></div>
+            <div class="flex items-start gap-3"><span class="check check-blue">✓</span><span class="text-[15px]"><span class="click-hint text-[var(--primary)]" data-modal="income-130" role="button" tabindex="0" aria-label="중위소득 130% 이하 — 가구원 수별 기준표 보기"><span class="ch-val">중위소득 130% 이하</span><span class="ch-action"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><rect x="2.2" y="3.2" width="11.6" height="9.6" rx="1.6"/><path d="M2.2 6.6h11.6M6.4 6.6v6.2"/></svg>가구별 기준표 ›</span></span><span class="income-eg"><b>1인 가구</b> 기준 월 3,334,000원 이하 <span class="yr">(2026년)</span></span></span></div>
             <div class="flex items-start gap-3"><span class="check check-blue">✓</span><span class="text-[15px]">무주택 세대주</span></div>
           </div>
           <div class="col-span-5 space-y-2">
+            <div class="flex items-start gap-3" style="visibility:hidden;pointer-events:none;" aria-hidden="true"><span class="check">✓</span><span class="text-[15px]">　<span class="text-[var(--ink-3)] text-xs block mt-0.5 leading-relaxed">　</span></span></div>
+            <div class="flex items-start gap-3"><span class="check">✓</span><span class="text-[15px]"><span class="click-hint text-[var(--secondary)]" data-modal="income-100" role="button" tabindex="0" aria-label="중위소득 100% 이하 — 가구원 수별 기준표 보기"><span class="ch-val">중위소득 100% 이하</span><span class="ch-action"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><rect x="2.2" y="3.2" width="11.6" height="9.6" rx="1.6"/><path d="M2.2 6.6h11.6M6.4 6.6v6.2"/></svg>가구별 기준표 ›</span></span><span class="income-eg"><b>1인 가구</b> 기준 월 2,565,000원 이하 <span class="yr">(2026년)</span></span></span></div>
             <div class="flex items-start gap-3"><span class="check">✓</span><span class="text-[15px]">무주택 세대주</span></div>
-            <div class="flex items-start gap-3"><span class="check">✓</span><span class="text-[15px]"><span class="click-hint text-[var(--secondary)]" data-modal="income-100" role="button" tabindex="0" aria-label="중위소득 100% 이하 상세 표 보기">중위소득 100% 이하</span></span></div>
           </div>
         </div>
 
@@ -1929,6 +1927,214 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </p>
   </div>
 </section>
+
+<!-- ========================= 상환 계산기 ========================= -->
+<section id="calculator" class="py-20 md:py-28 px-5 md:px-8 bg-white">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="text-center">
+      <span class="section-label">상환 계산기</span>
+      <div class="slash mt-6"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6">매월 <span class="text-[var(--secondary)]">얼마나</span> 갚을까요?</h2>
+      <p class="text-[var(--ink-2)] mt-4 text-[15px] leading-relaxed">대출금액과 시작 시점을 입력하면 월 상환액을 바로 확인할 수 있습니다.</p>
+    </div>
+
+    <div class="mt-12 balloon bg-white p-6 md:p-10 max-w-[640px] mx-auto">
+
+      <!-- 청년/저소득층 토글 -->
+      <div class="flex gap-0 rounded-full overflow-hidden mb-8" style="border: 1.5px solid var(--line);">
+        <button id="calc-btn-youth" onclick="calcSetType('youth')"
+          class="flex-1 py-3 font-pretendard-bold text-sm text-white transition"
+          style="background: var(--primary);">청년 (금리 2%)</button>
+        <button id="calc-btn-low" onclick="calcSetType('low')"
+          class="flex-1 py-3 font-pretendard-bold text-sm text-[var(--ink-3)] transition"
+          style="background: transparent;">저소득층 (금리 1%)</button>
+      </div>
+
+      <!-- 대출금액 -->
+      <div class="mb-7">
+        <div class="flex items-center justify-between mb-2">
+          <label for="calc-amt-input" class="text-sm font-bold text-[var(--ink-2)]">대출금액</label>
+          <span class="text-xs text-[var(--ink-3)]" id="calc-amt-hint">최대 1,500만원 (임차보증금의 50% 이내)</span>
+        </div>
+        <div id="calc-amt-wrap" class="flex items-stretch rounded-xl overflow-hidden transition-all duration-150"
+          style="border: 2px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+          <input type="number" id="calc-amt-input" min="10" max="1500" step="10" value="1000"
+            class="flex-1 px-5 text-[22px] font-bold bg-white outline-none border-none"
+            style="min-width:0; -moz-appearance:textfield; height:56px; color: var(--ink); letter-spacing:-0.5px;"
+            oninput="calcOnAmtInput()" onfocus="calcOnFocus()" onblur="calcOnAmtBlur()">
+          <span class="px-5 flex items-center text-base font-bold text-[var(--ink-3)]"
+            style="background: var(--bg); border-left: 2px solid var(--line); white-space:nowrap; height:56px;">만원</span>
+        </div>
+        <input type="range" id="calc-amt-slider" min="10" max="1500" step="10" value="1000"
+          class="w-full mt-4" oninput="calcOnSlider()" style="accent-color: var(--primary);">
+        <p class="text-xs mt-1" id="calc-amt-err" style="color:#c0392b; display:none;"></p>
+      </div>
+
+      <!-- 대출 시작 시점 -->
+      <div class="mb-8">
+        <label class="text-sm font-bold text-[var(--ink-2)] block mb-2">대출 시작 시점</label>
+        <div class="flex gap-3">
+          <select id="calc-sel-year" onchange="calcRun()"
+            class="flex-1 bg-white text-[15px] font-bold text-[var(--ink)] rounded-xl"
+            style="border: 2px solid var(--line); height:52px; padding: 0 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);"></select>
+          <select id="calc-sel-month" onchange="calcRun()"
+            class="flex-1 bg-white text-[15px] font-bold text-[var(--ink)] rounded-xl"
+            style="border: 2px solid var(--line); height:52px; padding: 0 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);"></select>
+        </div>
+        <p class="text-xs text-[var(--ink-3)] mt-2" id="calc-period-info"></p>
+      </div>
+
+      <!-- 결과 -->
+      <div class="rounded-2xl p-6 md:p-8 text-center mb-3" style="background: var(--bg);">
+        <p class="text-xs font-bold text-[var(--ink-3)] mb-2">매월 상환액</p>
+        <p class="font-display text-4xl md:text-5xl" id="calc-monthly" style="color: var(--primary);">—</p>
+        <p class="text-xs text-[var(--ink-3)] mt-2" id="calc-period-sub"></p>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="rounded-xl p-4 text-center" style="background: var(--bg);">
+          <p class="text-xs font-bold text-[var(--ink-3)] mb-1">총 상환액</p>
+          <p class="font-pretendard-bold text-lg text-[var(--ink)]" id="calc-total">—</p>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background: var(--bg);">
+          <p class="text-xs font-bold text-[var(--ink-3)] mb-1">총 이자</p>
+          <p class="font-pretendard-bold text-lg" id="calc-interest" style="color: var(--secondary);">—</p>
+        </div>
+      </div>
+
+      <p class="text-xs text-[var(--ink-3)] mt-5 leading-relaxed">
+        ※ 원리금균등분할상환 기준이며, 실제 상환액은 약정 조건 및 대출 실행일에 따라 달라질 수 있습니다.<br>
+        ※ 최종상환일: 2029년 1월 31일 / 연체 시 연체이자 5% 별도 부과
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var calcType = 'youth';
+  var MAX_DATE = new Date(2029, 0, 31);
+
+  function calcSetType(t) {
+    calcType = t;
+    var yBtn = document.getElementById('calc-btn-youth');
+    var lBtn = document.getElementById('calc-btn-low');
+    yBtn.style.background = t === 'youth' ? 'var(--primary)' : 'transparent';
+    yBtn.style.color = t === 'youth' ? 'white' : 'var(--ink-3)';
+    lBtn.style.background = t === 'low' ? 'var(--secondary)' : 'transparent';
+    lBtn.style.color = t === 'low' ? 'white' : 'var(--ink-3)';
+    var slider = document.getElementById('calc-amt-slider');
+    slider.style.accentColor = t === 'low' ? 'var(--secondary)' : 'var(--primary)';
+    var balloon = document.querySelector('#calculator .balloon');
+    if (balloon) { balloon.classList.toggle('calc-type-low', t === 'low'); }
+    var sl = document.getElementById('calc-amt-slider');
+    var ip = document.getElementById('calc-amt-input');
+    var MAX = t === 'low' ? 500 : 1500;
+    sl.max = MAX; ip.max = MAX;
+    document.getElementById('calc-amt-hint').textContent =
+      t === 'low' ? '최대 500만원' : '최대 1,500만원 (임차보증금의 50% 이내)';
+    if (+ip.value > MAX) { ip.value = MAX; sl.value = MAX; }
+    calcClearErr(); calcRun();
+  }
+  window.calcSetType = calcSetType;
+
+  function calcGetMax() { return calcType === 'low' ? 500 : 1500; }
+  function calcClearErr() {
+    var e = document.getElementById('calc-amt-err');
+    e.textContent = ''; e.classList.add('hidden');
+  }
+  function calcShowErr(msg) {
+    var e = document.getElementById('calc-amt-err');
+    e.textContent = msg; e.classList.remove('hidden');
+  }
+
+  function calcOnSlider() {
+    document.getElementById('calc-amt-input').value = +document.getElementById('calc-amt-slider').value;
+    calcClearErr(); calcRun();
+  }
+  window.calcOnSlider = calcOnSlider;
+
+  function calcOnAmtInput() {
+    var ip = document.getElementById('calc-amt-input');
+    var v = +ip.value; var MAX = calcGetMax();
+    calcClearErr();
+    if (ip.value === '' || isNaN(v) || v < 10) { document.getElementById('calc-amt-slider').value = 10; return; }
+    if (v > MAX) { calcShowErr('최대 ' + MAX.toLocaleString() + '만원까지 신청 가능합니다.'); document.getElementById('calc-amt-slider').value = MAX; }
+    else { document.getElementById('calc-amt-slider').value = v; }
+    calcRun();
+  }
+  window.calcOnAmtInput = calcOnAmtInput;
+
+  function calcOnAmtBlur() {
+    var ip = document.getElementById('calc-amt-input');
+    var MAX = calcGetMax(); var v = +ip.value;
+    if (!ip.value || isNaN(v) || v < 10) v = 10;
+    if (v > MAX) v = MAX;
+    ip.value = v; document.getElementById('calc-amt-slider').value = v;
+    calcClearErr(); calcRun();
+  }
+  window.calcOnAmtBlur = calcOnAmtBlur;
+
+  function calcFmt(n) { return Math.round(n).toLocaleString('ko-KR') + '원'; }
+
+  function calcRun() {
+    var ip = document.getElementById('calc-amt-input');
+    var amtMan = +ip.value; var MAX = calcGetMax();
+    if (!amtMan || amtMan < 10) return;
+    if (amtMan > MAX) amtMan = MAX;
+    var amtWon = amtMan * 10000;
+    var y = +document.getElementById('calc-sel-year').value;
+    var m = +document.getElementById('calc-sel-month').value;
+    var months = (MAX_DATE.getFullYear() - y) * 12 + (MAX_DATE.getMonth() - (m - 1));
+    if (months < 1) months = 1;
+    if (months > 31) months = 31;
+    document.getElementById('calc-period-info').textContent =
+      y + '년 ' + m + '월 시작 → 2029년 1월 상환 완료 (' + months + '개월)';
+    document.getElementById('calc-period-sub').textContent = months + '개월 상환 기준';
+    var rate = calcType === 'youth' ? 0.02 : 0.01;
+    var r = rate / 12;
+    var monthly = r === 0 ? amtWon / months
+      : amtWon * r * Math.pow(1 + r, months) / (Math.pow(1 + r, months) - 1);
+    var total = monthly * months;
+    var interest = total - amtWon;
+    var color = calcType === 'youth' ? 'var(--primary)' : 'var(--secondary)';
+    document.getElementById('calc-monthly').style.color = color;
+    document.getElementById('calc-monthly').textContent = calcFmt(monthly);
+    document.getElementById('calc-total').textContent = calcFmt(total);
+    document.getElementById('calc-interest').textContent = calcFmt(interest);
+  }
+  window.calcRun = calcRun;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var now = new Date();
+    var yy = document.getElementById('calc-sel-year');
+    var mm = document.getElementById('calc-sel-month');
+    for (var y = 2026; y <= 2028; y++) {
+      var o = document.createElement('option');
+      o.value = y; o.textContent = y + '년';
+      if (y === now.getFullYear()) o.selected = true;
+      yy.appendChild(o);
+    }
+    for (var mo = 1; mo <= 12; mo++) {
+      var op = document.createElement('option');
+      op.value = mo; op.textContent = mo + '월';
+      if (mo === now.getMonth() + 1) op.selected = true;
+      mm.appendChild(op);
+    }
+    calcRun();
+  });
+
+  /* input[type=number] 스피너 숨기기 */
+  var st = document.createElement('style');
+  st.textContent = [
+    '#calc-amt-input::-webkit-inner-spin-button,#calc-amt-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}',
+    '#calc-amt-wrap:focus-within{border-color:var(--primary)!important;box-shadow:0 0 0 3px rgba(0,0,150,0.10)!important;}',
+    '#calc-sel-year:focus,#calc-sel-month:focus{outline:none;border-color:var(--primary)!important;box-shadow:0 0 0 3px rgba(0,0,150,0.10)!important;}',
+    '.calc-type-low #calc-amt-wrap:focus-within{border-color:var(--secondary)!important;box-shadow:0 0 0 3px rgba(255,102,51,0.12)!important;}',
+    '.calc-type-low #calc-sel-year:focus,.calc-type-low #calc-sel-month:focus{border-color:var(--secondary)!important;box-shadow:0 0 0 3px rgba(255,102,51,0.12)!important;}'
+  ].join('');
+  document.head.appendChild(st);
+})();
+</script>
 
 <!-- ========================= 신청 자격 체크리스트 ========================= -->
 <section id="apply" class="py-20 md:py-28 px-5 md:px-8 bg-white">
