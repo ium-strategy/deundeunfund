@@ -1156,6 +1156,48 @@ wcs_do();
     height: 6px; border-radius: 999px;
   }
 
+  /* 접수 회차 자동 표시 상태 (현재 날짜 기준으로 JS가 토글) */
+  .tl-dot { position: relative; transition: background .25s, color .25s, border-color .25s, box-shadow .25s, opacity .25s; }
+  .tl-dot.tone-primary.is-future   { background:#fff; color:var(--primary);   border:2px solid var(--primary); }
+  .tl-dot.tone-secondary.is-future { background:#fff; color:var(--secondary); border:2px solid var(--secondary); }
+  .tl-dot.tone-primary.is-next     { background:var(--primary);   color:#fff; border:2px solid var(--primary);   box-shadow:0 10px 24px rgba(0,0,150,.35); }
+  .tl-dot.tone-secondary.is-next   { background:var(--secondary); color:#fff; border:2px solid var(--secondary); box-shadow:0 10px 24px rgba(255,102,51,.35); }
+  .tl-dot.is-past { background:var(--bg); color:var(--ink-3); border:2px solid var(--line); box-shadow:none; opacity:.7; }
+  .tl-dot.is-next::after {
+    content:""; position:absolute; inset:-6px; border-radius:9999px;
+    border:2px solid var(--primary); opacity:.45; animation: tlPulse 1.9s ease-out infinite; pointer-events:none;
+  }
+  .tl-dot.tone-secondary.is-next::after { border-color:var(--secondary); }
+  @keyframes tlPulse { 0%{transform:scale(1);opacity:.5} 100%{transform:scale(1.28);opacity:0} }
+  .tl-badge {
+    position:absolute; left:50%; transform:translateX(-50%); top:-1.7rem;
+    font-size:10px; font-weight:800; color:#fff; background:var(--primary);
+    padding:2px 8px; border-radius:9999px; white-space:nowrap; box-shadow:0 4px 10px rgba(0,0,150,.3);
+  }
+  .tl-badge.tone-secondary { background:var(--secondary); box-shadow:0 4px 10px rgba(255,102,51,.3); }
+  .tl-label.is-past { color:var(--ink-3) !important; text-decoration:line-through; opacity:.7; }
+  .tl-label.tone-primary.is-next   { color:var(--primary) !important; font-weight:800; }
+  .tl-label.tone-secondary.is-next { color:var(--secondary) !important; font-weight:800; }
+
+  /* 이번 회차 진행 일정 (접수→심의→결과→약정) */
+  .sched-step { position:relative; background:#fff; border:1.5px solid var(--line); border-radius:1rem; padding:1.1rem 0.9rem 1.15rem; text-align:center; transition:all .2s; }
+  .sched-step .sched-num { width:1.9rem; height:1.9rem; margin:0 auto .55rem; border-radius:9999px; background:var(--primary-tint); color:var(--primary); font-weight:800; font-size:.78rem; display:flex; align-items:center; justify-content:center; }
+  .sched-step .sched-name { font-weight:800; font-size:.95rem; color:var(--ink); line-height:1.3; }
+  .sched-step .sched-date { margin-top:.3rem; font-size:.9rem; font-weight:700; color:var(--ink-2); }
+  .sched-step.is-active { border-color:var(--primary); background:linear-gradient(135deg,#000096,#1a1aa8); box-shadow:0 12px 28px rgba(0,0,150,.28); }
+  .sched-step.is-active .sched-num { background:rgba(255,255,255,.22); color:#fff; }
+  .sched-step.is-active .sched-name,
+  .sched-step.is-active .sched-date { color:#fff; }
+  .sched-step.is-done { opacity:.55; }
+  .sched-step.is-done .sched-num { background:var(--bg); color:var(--ink-3); }
+  .sched-badge { display:inline-block; margin-left:.35rem; font-size:10px; font-weight:800; color:#fff; background:var(--secondary); padding:1px 7px; border-radius:9999px; vertical-align:middle; }
+  @media (min-width:768px){
+    .sched-step:not(:last-child)::after{
+      content:"›"; position:absolute; right:-0.78rem; top:50%; transform:translateY(-50%);
+      color:var(--ink-3); font-weight:800; font-size:1.15rem; z-index:1;
+    }
+  }
+
   /* 클립보드 복사 버튼 */
   .copy-btn {
     cursor: pointer;
@@ -1687,12 +1729,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <!-- ========================= 핵심 혜택 ========================= -->
-<section id="benefit" class="py-20 md:py-28 px-5 md:px-8">
+<section id="benefit" class="py-12 md:py-16 px-5 md:px-8">
   <div class="max-w-[1280px] mx-auto">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">핵심 혜택 3가지</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6 leading-tight">
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4 leading-tight">
         <span data-editable contenteditable="false">보증금 부담을 낮추고,</span><br/>
         <span data-editable contenteditable="false">안정적인 주거를 </span><span class="text-[var(--secondary)]" data-editable contenteditable="false">지원</span><span data-editable contenteditable="false">합니다.</span>
       </h2>
@@ -1770,18 +1812,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========================= 한 눈에 보는 지원 조건 ========================= -->
-<section id="condition" class="py-20 md:py-28 px-5 md:px-8 relative">
+<section id="condition" class="py-12 md:py-16 px-5 md:px-8 relative">
   <div class="blob" style="width:300px;height:300px;background:#E6E6F5;top:-50px;right:5%;opacity:.6;"></div>
   <div class="max-w-[1280px] mx-auto relative">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">지원 내용</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6">
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4">
         <span data-editable contenteditable="false">한 눈에 보는 </span><span class="text-[var(--secondary)]" data-editable contenteditable="false">지원 조건</span>
       </h2>
     </div>
 
-    <div class="mt-12 balloon bg-white p-5 md:p-10">
+    <div class="mt-8 balloon bg-white p-5 md:p-10">
       <!-- ========== 모바일 탭 (≤768px) ========== -->
       <div class="md:hidden">
         <!-- 탭 버튼 -->
@@ -1929,16 +1971,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========================= 상환 계산기 ========================= -->
-<section id="calculator" class="py-20 md:py-28 px-5 md:px-8 bg-white">
+<section id="calculator" class="py-12 md:py-16 px-5 md:px-8 bg-white">
   <div class="max-w-[1280px] mx-auto">
     <div class="text-center">
       <span class="section-label">상환 계산기</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6">매월 <span class="text-[var(--secondary)]">얼마나</span> 갚을까요?</h2>
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4">매월 <span class="text-[var(--secondary)]">얼마나</span> 갚을까요?</h2>
       <p class="text-[var(--ink-2)] mt-4 text-[15px] leading-relaxed">대출금액과 시작 시점을 입력하면 월 상환액을 바로 확인할 수 있습니다.</p>
     </div>
 
-    <div class="mt-12 balloon bg-white p-6 md:p-10 max-w-[640px] mx-auto">
+    <div class="mt-8 balloon bg-white p-6 md:p-10 max-w-[640px] mx-auto">
 
       <!-- 청년/저소득층 토글 -->
       <div class="flex gap-0 rounded-full overflow-hidden mb-8" style="border: 1.5px solid var(--line);">
@@ -2137,12 +2179,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 
 <!-- ========================= 신청 자격 체크리스트 ========================= -->
-<section id="apply" class="py-20 md:py-28 px-5 md:px-8 bg-white">
+<section id="apply" class="py-12 md:py-16 px-5 md:px-8 bg-white">
   <div class="max-w-[1280px] mx-auto">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">신청 자격</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6" data-editable contenteditable="false">신청 전, 기본 조건을 먼저 확인하세요</h2>
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4" data-editable contenteditable="false">신청 전, 기본 조건을 먼저 확인하세요</h2>
       <p class="text-[var(--ink-2)] mt-4 text-[15px] leading-relaxed" data-editable contenteditable="false">
         몇 가지 기준만 확인하면 신청 가능성을 빠르게 살펴볼 수 있습니다.<br/>
         최종 지원 여부는 제출서류 검토와 심사를 통해 결정됩니다.
@@ -2150,7 +2192,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <!-- ===== 자가진단 (인터랙티브 신청 가능성 체크) ===== -->
-    <div class="mt-12 max-w-[680px] mx-auto">
+    <div class="mt-8 max-w-[680px] mx-auto">
       <div id="quizCard" class="balloon relative overflow-hidden p-6 md:p-8"
            style="background: linear-gradient(135deg, #FFF1A8 0%, #FFD449 100%); border: 1.5px solid rgba(255,255,255,0.6);">
         <!-- 상단 헤더 -->
@@ -2281,7 +2323,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <div class="mt-12 balloon bg-white p-6 md:p-10 relative" style="border:1.5px solid var(--line);">
+    <div class="mt-8 balloon bg-white p-6 md:p-10 relative" style="border:1.5px solid var(--line);">
       <div class="flex items-start gap-4">
         <div class="w-12 h-12 rounded-2xl bg-[var(--primary-tint)] flex items-center justify-center flex-shrink-0">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="18" rx="2" fill="#000096"/><rect x="8" y="2" width="8" height="4" rx="1" fill="#000096"/><path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2379,16 +2421,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========================= 사용 용도 ========================= -->
-<section id="usage" class="py-20 md:py-28 px-5 md:px-8" style="background: linear-gradient(180deg, #FFFFFF 0%, #F1F4FA 100%);">
+<section id="usage" class="py-12 md:py-16 px-5 md:px-8" style="background: linear-gradient(180deg, #FFFFFF 0%, #F1F4FA 100%);">
   <div class="max-w-[1100px] mx-auto">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">사용 용도</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6" data-editable contenteditable="false">보증금 마련 목적에만 사용할 수 있습니다</h2>
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4" data-editable contenteditable="false">보증금 마련 목적에만 사용할 수 있습니다</h2>
       <p class="text-[var(--ink-2)] mt-4 text-[15px]" data-editable contenteditable="false">신규 임차보증금 또는 재계약으로 증액된 보증금에 한해 지원됩니다.</p>
     </div>
 
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
       <!-- 사용할 수 있어요 -->
       <div class="balloon bg-white p-7 md:p-8" style="border:1.5px solid var(--primary-tint);">
         <div class="flex items-center gap-3 mb-5">
@@ -2443,21 +2485,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========================= 신청 기간 / Timeline ========================= -->
-<section class="py-20 md:py-28 px-5 md:px-8">
+<section class="py-12 md:py-16 px-5 md:px-8">
   <div class="max-w-[1280px] mx-auto">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">신청 기간</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6" data-editable contenteditable="false">신청은 언제 할 수 있나요?</h2>
-      <p class="text-[var(--ink-2)] mt-4 text-[15px]" data-editable contenteditable="false">첫 신청 접수일과 이후 접수일을 미리 확인해 주세요. 예산 소진 시 조기 종료될 수 있습니다.</p>
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4" data-editable contenteditable="false">신청은 언제 할 수 있나요?</h2>
+      <p class="text-[var(--ink-2)] mt-4 text-[15px]" data-editable contenteditable="false">신청 접수일과 이후 접수일을 미리 확인해 주세요. <strong class="text-[var(--secondary)] font-bold">예산 소진 시 조기 종료될 수 있습니다.</strong></p>
     </div>
 
-    <div class="mt-12 balloon bg-white p-6 md:p-10">
+    <div class="mt-8 balloon bg-white p-6 md:p-10">
       <!-- first highlight -->
       <div class="rounded-3xl p-6 md:p-8 text-center" style="background: linear-gradient(135deg, #000096, #1a1aa8); color:white;">
-        <div class="text-sm font-bold opacity-80" data-editable contenteditable="false">첫 신청 접수</div>
-        <div class="font-pretendard-bold text-3xl md:text-5xl mt-2" data-editable contenteditable="false">2026년 6월 1일 ~ 6월 15일</div>
-        <div class="text-xs md:text-sm mt-3 opacity-90" data-editable contenteditable="false">이후 2027년 4월까지 <span class="text-[#FFB04A] font-bold">짝수월 1일~15일 접수</span></div>
+        <div id="apply-period-label" class="text-sm font-bold opacity-80" data-editable contenteditable="false">다음 신청 접수</div>
+        <div id="apply-period-date" class="font-pretendard-bold text-3xl md:text-5xl mt-2" data-editable contenteditable="false">2026년 8월 1일 ~ 8월 15일</div>
+        <div id="apply-period-sub" class="text-xs md:text-sm mt-3 opacity-90" data-editable contenteditable="false">이후 2027년 4월까지 <span class="text-[#FFB04A] font-bold">짝수월 1일~15일 접수</span></div>
       </div>
 
       <!-- timeline -->
@@ -2466,30 +2508,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="timeline-track absolute left-0 right-0 top-1/2 -translate-y-1/2"></div>
           <div class="relative grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
             <div class="text-center">
-              <div class="mx-auto w-12 h-12 rounded-full bg-[var(--primary)] text-white flex items-center justify-center font-pretendard-bold text-sm shadow-lg">6월</div>
-              <div class="mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">2026 · 1~15일</div>
+              <div class="tl-dot tone-primary is-past mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm" data-ym="2026-06" data-tone="primary">6월</div>
+              <div class="tl-label mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">2026 · 1~15일</div>
             </div>
             <div class="text-center">
-              <div class="mx-auto w-12 h-12 rounded-full bg-white text-[var(--primary)] border-2 border-[var(--primary)] flex items-center justify-center font-pretendard-bold text-sm">8월</div>
-              <div class="mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
+              <div class="tl-dot tone-primary is-next mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm" data-ym="2026-08" data-tone="primary" data-review="8/18~27" data-result="8/28~31" data-contract="9/1~">8월</div>
+              <div class="tl-label mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
             </div>
             <div class="text-center">
-              <div class="mx-auto w-12 h-12 rounded-full bg-white text-[var(--primary)] border-2 border-[var(--primary)] flex items-center justify-center font-pretendard-bold text-sm">10월</div>
-              <div class="mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
+              <div class="tl-dot tone-primary is-future mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm" data-ym="2026-10" data-tone="primary">10월</div>
+              <div class="tl-label mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
             </div>
             <div class="text-center">
-              <div class="mx-auto w-12 h-12 rounded-full bg-white text-[var(--primary)] border-2 border-[var(--primary)] flex items-center justify-center font-pretendard-bold text-sm">12월</div>
-              <div class="mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
+              <div class="tl-dot tone-primary is-future mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm" data-ym="2026-12" data-tone="primary">12월</div>
+              <div class="tl-label mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
             </div>
             <div class="text-center">
-              <div class="mx-auto w-12 h-12 rounded-full bg-white text-[var(--secondary)] border-2 border-[var(--secondary)] flex items-center justify-center font-pretendard-bold text-sm">2월</div>
-              <div class="mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">2027 · 1~15일</div>
+              <div class="tl-dot tone-secondary is-future mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm" data-ym="2027-02" data-tone="secondary">2월</div>
+              <div class="tl-label mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">2027 · 1~15일</div>
             </div>
             <div class="text-center">
-              <div class="mx-auto w-12 h-12 rounded-full bg-[var(--secondary)] text-white flex items-center justify-center font-pretendard-bold text-sm shadow-lg">4월</div>
-              <div class="mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
+              <div class="tl-dot tone-secondary is-future mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm" data-ym="2027-04" data-tone="secondary">4월</div>
+              <div class="tl-label mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- 이번 회차 진행 일정 (접수→심의→결과→약정, 표시 회차에 맞춰 자동 계산) -->
+      <div id="round-schedule" class="mt-10 pt-8" style="border-top:1px dashed var(--line);">
+        <div class="flex items-center gap-2 mb-5">
+          <span class="w-7 h-7 rounded-full bg-[var(--primary)] text-white inline-flex items-center justify-center text-xs flex-shrink-0">📅</span>
+          <h3 id="round-schedule-title" class="font-pretendard-bold text-lg md:text-xl" data-editable contenteditable="false">8월 접수 진행 일정</h3>
+        </div>
+        <!-- 확정 회차: 4단계 진행 일정 -->
+        <div id="sched-confirmed">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+            <div class="sched-step" data-role="reception">
+              <div class="sched-num">01</div>
+              <div class="sched-name">접수</div>
+              <div class="sched-date">8/1~15</div>
+            </div>
+            <div class="sched-step" data-role="review">
+              <div class="sched-num">02</div>
+              <div class="sched-name">심의</div>
+              <div class="sched-date">8/18~27</div>
+            </div>
+            <div class="sched-step" data-role="result">
+              <div class="sched-num">03</div>
+              <div class="sched-name">결과 통보</div>
+              <div class="sched-date">8/28~31</div>
+            </div>
+            <div class="sched-step" data-role="contract">
+              <div class="sched-num">04</div>
+              <div class="sched-name">약정 체결</div>
+              <div class="sched-date">9/1~</div>
+            </div>
+          </div>
+          <p class="text-xs text-[var(--ink-3)] mt-3 leading-relaxed" data-editable contenteditable="false">※ 약정 체결 후 대출이 집행됩니다. 세부 일정은 회차·심사 상황에 따라 달라질 수 있습니다.</p>
+        </div>
+        <!-- 미확정 회차: 안내 문구 (JS가 확정 여부에 따라 표시) -->
+        <div id="sched-pending" class="hidden rounded-2xl px-5 py-4 flex items-start gap-3" style="background: var(--primary-tint);">
+          <span class="text-base flex-shrink-0">🗓️</span>
+          <span id="sched-pending-text" class="text-sm text-[var(--ink-2)] leading-relaxed" data-editable contenteditable="false">해당 회차의 세부 진행 일정(심의·결과 통보·약정)은 접수 공고 시 안내됩니다.</span>
         </div>
       </div>
 
@@ -2501,16 +2582,175 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<!-- 접수 회차 자동 계산: 오늘 날짜 기준으로 '다음/진행 중' 접수 회차를 표시 -->
+<script>
+(function () {
+  function initApplyTimeline() {
+    var labelEl = document.getElementById('apply-period-label');
+    var dateEl  = document.getElementById('apply-period-date');
+    var subEl   = document.getElementById('apply-period-sub');
+    var dots = Array.prototype.slice.call(document.querySelectorAll('.tl-dot[data-ym]'));
+    if (!dateEl || !dots.length) return;
+
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // 자정 기준 비교
+
+    // 타임라인의 각 점에서 회차 정보를 읽어옴 (회차를 추가/수정하면 자동 반영)
+    var periods = dots.map(function (dot) {
+      var parts = dot.getAttribute('data-ym').split('-');
+      var y = parseInt(parts[0], 10);
+      var m = parseInt(parts[1], 10);
+      return {
+        y: y, m: m,
+        tone: dot.getAttribute('data-tone') || 'primary',
+        start: new Date(y, m - 1, 1),   // 1일
+        end:   new Date(y, m - 1, 15),  // 15일 (접수 마지막 날)
+        dot: dot
+      };
+    });
+
+    // 상태 판정: active(1~15일 접수중) / 아직 안 지난 첫 회차 = next
+    var activeIdx = -1, nextIdx = -1;
+    periods.forEach(function (p, i) {
+      if (today >= p.start && today <= p.end && activeIdx === -1) activeIdx = i;
+      if (today <= p.end && nextIdx === -1) nextIdx = i;
+    });
+    var currentIdx = (activeIdx !== -1) ? activeIdx : nextIdx;
+    var allClosed  = (currentIdx === -1);
+    var isActive   = (activeIdx !== -1);
+
+    function fmt(p)      { return p.y + '년 ' + p.m + '월 1일 ~ ' + p.m + '월 15일'; }
+    function fmtShort(p) { return p.y + '년 ' + p.m + '월 1~15일'; }
+
+    // 상단 하이라이트 박스 갱신
+    if (allClosed) {
+      var last = periods[periods.length - 1];
+      if (labelEl) labelEl.textContent = '신청 접수 종료';
+      dateEl.textContent = fmt(last);
+      if (subEl) subEl.innerHTML = '모든 접수 회차가 종료되었습니다';
+    } else {
+      var cur = periods[currentIdx];
+      if (labelEl) labelEl.textContent = isActive ? '지금 신청 접수 중' : '다음 신청 접수';
+      dateEl.textContent = fmt(cur);
+      var following = periods[currentIdx + 1];
+      if (subEl) {
+        subEl.innerHTML = following
+          ? '이후 접수 예정 · <span class="text-[#FFB04A] font-bold">' + fmtShort(following) + '</span>'
+          : '이번이 <span class="text-[#FFB04A] font-bold">마지막 접수 회차</span>입니다';
+      }
+    }
+
+    // 타임라인 점/라벨 상태 갱신
+    var baseDot = 'tl-dot mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm';
+    periods.forEach(function (p, i) {
+      var state;
+      if (!allClosed && i === currentIdx) state = 'is-next';
+      else if (today > p.end)             state = 'is-past';
+      else                                state = 'is-future';
+
+      p.dot.className = baseDot + ' tone-' + p.tone + ' ' + state;
+
+      var oldBadge = p.dot.querySelector('.tl-badge');
+      if (oldBadge) oldBadge.parentNode.removeChild(oldBadge);
+      if (state === 'is-next') {
+        var badge = document.createElement('span');
+        badge.className = 'tl-badge tone-' + p.tone;
+        badge.textContent = isActive ? '접수중' : '다음';
+        p.dot.appendChild(badge);
+      }
+
+      var label = p.dot.parentElement.querySelector('.tl-label');
+      if (label) {
+        label.classList.remove('is-past', 'is-next', 'tone-primary', 'tone-secondary');
+        label.classList.add('tone-' + p.tone);
+        if (state === 'is-past')       label.classList.add('is-past');
+        else if (state === 'is-next')  label.classList.add('is-next');
+      }
+    });
+
+    // ===== 이번(표시 중) 회차의 진행 일정 =====
+    // 확정 일정은 타임라인 점의 data-review / data-result / data-contract 에 직접 입력.
+    // 세 값이 모두 있는 회차만 4단계 일정을 노출하고, 없으면 '추후 공지' 안내로 대체.
+    var schedWrap    = document.getElementById('round-schedule');
+    var schedTitle   = document.getElementById('round-schedule-title');
+    var schedConfirm = document.getElementById('sched-confirmed');
+    var schedPending = document.getElementById('sched-pending');
+    var schedPendTxt = document.getElementById('sched-pending-text');
+    if (schedWrap) {
+      var r  = allClosed ? periods[periods.length - 1] : periods[currentIdx];
+      var rd = r.dot;
+      var rm = r.m;
+      var reception = rd.getAttribute('data-reception') || (rm + '/1~15'); // 접수는 기본 M/1~15
+      var review    = rd.getAttribute('data-review');
+      var result    = rd.getAttribute('data-result');
+      var contract  = rd.getAttribute('data-contract');
+      var confirmed = !!(review && result && contract);
+
+      if (schedTitle) schedTitle.textContent = rm + '월 접수 진행 일정';
+
+      if (confirmed) {
+        if (schedConfirm) schedConfirm.classList.remove('hidden');
+        if (schedPending) schedPending.classList.add('hidden');
+
+        var phaseData = {
+          reception: reception,
+          review:    review,
+          result:    result,
+          contract:  contract
+        };
+        Object.keys(phaseData).forEach(function (role) {
+          var step = schedConfirm.querySelector('.sched-step[data-role="' + role + '"]');
+          if (!step) return;
+          var dateEl2 = step.querySelector('.sched-date');
+          if (dateEl2) dateEl2.textContent = phaseData[role];
+
+          // 접수 기간(1~15일) 진행 중일 때만 접수 단계 '진행중' 강조
+          step.classList.remove('is-active');
+          var oldB = step.querySelector('.sched-badge');
+          if (oldB) oldB.parentNode.removeChild(oldB);
+          if (role === 'reception' && isActive && !allClosed && currentIdx === activeIdx) {
+            var recS = new Date(r.y, rm - 1, 1), recE = new Date(r.y, rm - 1, 15);
+            if (today >= recS && today <= recE) {
+              step.classList.add('is-active');
+              var nameEl = step.querySelector('.sched-name');
+              if (nameEl) {
+                var b = document.createElement('span');
+                b.className = 'sched-badge';
+                b.textContent = '진행중';
+                nameEl.appendChild(b);
+              }
+            }
+          }
+        });
+      } else {
+        // 확정 일정이 입력되지 않은 회차 → 4단계 숨기고 안내만 표시
+        if (schedConfirm) schedConfirm.classList.add('hidden');
+        if (schedPending) schedPending.classList.remove('hidden');
+        if (schedPendTxt) {
+          schedPendTxt.textContent = rm + '월 회차의 세부 진행 일정(심의·결과 통보·약정)은 접수 공고 시 안내됩니다.';
+        }
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApplyTimeline);
+  } else {
+    initApplyTimeline();
+  }
+})();
+</script>
+
 <!-- ========================= 신청 방법 ========================= -->
-<section id="process" class="py-20 md:py-28 px-5 md:px-8 bg-white">
+<section id="process" class="py-12 md:py-16 px-5 md:px-8 bg-white">
   <div class="max-w-[1280px] mx-auto">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">신청 방법</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6" data-editable contenteditable="false">신청은 이렇게 진행됩니다</h2>
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4" data-editable contenteditable="false">신청은 이렇게 진행됩니다</h2>
     </div>
 
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-5 gap-5">
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-5 gap-5">
       <div class="step-card puff bg-white p-6 text-center" style="border:1.5px solid var(--line);" tabindex="0">
         <span class="num">01</span>
         <h3 class="font-pretendard-bold text-base md:text-lg mt-4" data-editable contenteditable="false">신청 자격 확인</h3>
@@ -2571,7 +2811,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========================= 성실상환 특별 혜택 ========================= -->
-<section class="py-20 md:py-28 px-5 md:px-8">
+<section class="py-12 md:py-16 px-5 md:px-8">
   <div class="max-w-[1280px] mx-auto">
     <div class="balloon p-8 md:p-14 relative overflow-hidden" style="background: linear-gradient(135deg, #FFF1A8 0%, #FFD449 100%);">
       <div class="grid-12 items-center relative z-10">
@@ -2613,15 +2853,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========================= 제출 서류 ========================= -->
-<section id="docs" class="py-20 md:py-28 px-5 md:px-8 bg-white">
+<section id="docs" class="py-12 md:py-16 px-5 md:px-8 bg-white">
   <div class="max-w-[1280px] mx-auto">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">제출 서류</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6" data-editable contenteditable="false">신청에 필요한 서류를 미리 준비하세요</h2>
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4" data-editable contenteditable="false">신청에 필요한 서류를 미리 준비하세요</h2>
     </div>
 
-    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
       <!-- 01 신청서류 -->
       <div class="doc-card text-white" style="background: linear-gradient(160deg, #1a1aa8, #000096);">
         <div class="doc-card-head">
@@ -2705,12 +2945,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ========================= FAQ ========================= -->
-<section id="faq" class="py-20 md:py-28 px-5 md:px-8">
+<section id="faq" class="py-12 md:py-16 px-5 md:px-8">
   <div class="max-w-[900px] mx-auto">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">FAQ</span>
-      <div class="slash mt-6"></div>
-      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-6" data-editable contenteditable="false">자주 묻는 질문</h2>
+      <div class="slash mt-4"></div>
+      <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4" data-editable contenteditable="false">자주 묻는 질문</h2>
       <p class="text-[var(--ink-2)] mt-4 text-[15px]" data-editable contenteditable="false">신청 전 꼭 확인해 주세요. 자주 문의하시는 내용을 한눈에 정리했습니다.</p>
     </div>
 
