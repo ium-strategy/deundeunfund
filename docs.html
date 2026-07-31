@@ -467,6 +467,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .dp-foot p { margin: 0 0 5px; font-size: 11.5px; line-height: 1.6; color: var(--ink-3); word-break: keep-all; }
   .dp-foot a { display: inline-block; padding: 6px 2px; color: var(--ink-2); font-weight: 700; text-decoration: none; }
   .dp-foot a:hover { color: var(--primary); }
+  .dp-home {
+    display: inline-flex !important; align-items: center; gap: 7px;
+    margin-top: 16px; padding: 12px 22px !important; border-radius: 999px;
+    background: linear-gradient(135deg, #ff8059, #E04E1A); color: #fff !important;
+    font-size: 13.5px; font-weight: 800; letter-spacing: -.02em; text-decoration: none;
+    box-shadow: 0 8px 20px rgba(224,78,26,.24);
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .dp-home:hover { color: #fff !important; transform: translateY(-2px); box-shadow: 0 12px 26px rgba(224,78,26,.32); }
+  .dp-home:active { transform: translateY(0); }
+  .dp-home svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+  /* 맨 위로 버튼 */
+  .dp-top-btn {
+    position: fixed; right: 14px; z-index: 66;
+    bottom: calc(var(--bottom-h) + 66px + env(safe-area-inset-bottom, 0px));
+    width: 46px; height: 46px; border-radius: 999px;
+    background: #fff; border: 1.5px solid var(--line); color: var(--primary);
+    display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 8px 24px rgba(15,18,60,.18);
+    opacity: 0; transform: translateY(10px); pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease, background .15s, border-color .15s, color .15s;
+  }
+  .dp-top-btn.is-show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .dp-top-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .dp-top-btn:active { transform: scale(.94); }
+  .dp-top-btn svg { width: 20px; height: 20px; }
 
   /* ── 모달 ── */
   .modal-backdrop {
@@ -537,7 +564,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .dp-title { font-size: 13.5px; }
   }
   @media print {
-    .dp-top, .dp-bottom, .dp-kakao, .dc-filter, .dp-quick, .dp-bulk, .dp-shead, .dp-defs, .dp-copybtn, .dp-slash, .dc-issue, .modal-backdrop, .toast { display: none !important; }
+    .dp-top, .dp-bottom, .dp-kakao, .dp-top-btn, .dc-filter, .dp-quick, .dp-bulk, .dp-shead, .dp-defs, .dp-copybtn, .dp-slash, .dc-issue, .modal-backdrop, .toast { display: none !important; }
         body { padding-bottom: 0; background: #fff; }
   }
 </style>
@@ -1029,7 +1056,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p>운영 <a href="https://www.yesnanum.org" target="_blank" rel="noopener noreferrer">사단법인 나눔과미래</a> · 지원 금융산업공익재단</p>
       <p>문의 <a href="tel:02-925-2528">02-925-2528</a> · <a href="mailto:warmfund@naver.com">warmfund@naver.com</a></p>
       <p>서울시 성북구 삼선교로22길 22, 502호</p>
-      <p style="margin-top:10px"><a href="index.html">든든한주거복지기금 홈으로 →</a></p>
+      <a href="index.html" class="dp-home">
+        든든한주거복지기금 홈으로
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+      </a>
     </footer>
   </div>
 </main>
@@ -1043,6 +1073,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button type="button" class="dp-bottom-btn" id="dpBottomBtn">제출 방법</button>
   </div>
 </div>
+
+<button type="button" class="dp-top-btn" id="dpTopBtn" aria-label="맨 위로 이동">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <a href="http://pf.kakao.com/_CxkxkxbX/chat" target="_blank" rel="noopener noreferrer" class="dp-kakao" id="kakaoChannelBtn">
   💬 카카오톡 문의
@@ -1487,6 +1521,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') document.querySelectorAll('.modal-backdrop.is-open').forEach(function (m) { closeModal(m); });
   });
+
+  /* 맨 위로 버튼 */
+  var topBtn = document.getElementById('dpTopBtn');
+  if (topBtn) {
+    topBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    var onScroll = function () {
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+      topBtn.classList.toggle('is-show', y > 400);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 
   load();
   syncFilterUI();
