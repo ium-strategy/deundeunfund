@@ -1550,6 +1550,98 @@ wcs_do();
   .modal-card.is-secondary .income-table tbody td.label {
     color: var(--secondary);
   }
+
+  /* =========================================================
+     제출서류 요약 카드 (메인) — dc- namespace
+     상세 체크리스트는 docs.html 로 분리
+     ========================================================= */
+
+  /* ── 요약 바 ── */
+  .dc-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 28px; }
+  .dc-sum {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1px; padding: 12px 8px; border-radius: 15px; color: #fff; text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 8px 20px rgba(15,18,60,.10);
+  }
+  .dc-sum--a { background: linear-gradient(160deg, #1a1aa8, #000096); }
+  .dc-sum--b { background: linear-gradient(160deg, #3FA079, #247359); }
+  .dc-sum--c { background: linear-gradient(160deg, #ff8059, #E04E1A); }
+  .dc-sum-no { font-size: 10px; font-weight: 700; opacity: .7; letter-spacing: .08em; }
+  .dc-sum-nm { font-size: 12.5px; font-weight: 700; letter-spacing: -.02em; word-break: keep-all; }
+  .dc-sum-ct { font-family: 'KoreaInstituteOfMachineryAndMaterials','Pretendard',sans-serif; font-size: 19px; font-weight: 700; line-height: 1.15; margin-top: 3px; }
+
+  /* ── 발급일 유효기간 배너 ── */
+  .dc-alert {
+    display: flex; align-items: flex-start; gap: 9px; margin-top: 10px;
+    padding: 11px 14px; border-radius: 14px;
+    background: var(--secondary-tint); border: 1.5px solid rgba(255,102,51,.35);
+    font-size: 13px; line-height: 1.55; color: var(--ink); word-break: keep-all;
+  }
+  .dc-alert b { color: #d4451a; font-weight: 800; }
+  .dc-alert-ico { flex-shrink: 0; font-size: 14px; line-height: 1.45; }
+
+  /* ── 신청서 양식 다운로드 ── */
+  .dc-forms {
+    margin-top: 12px; padding: 18px 18px 16px; border-radius: 20px;
+    background: linear-gradient(160deg, #1a1aa8, #000096); color: #fff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 12px 28px rgba(15,18,60,.10);
+  }
+  .dc-forms-head { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
+  .dc-forms-no {
+    width: 30px; height: 30px; border-radius: 999px; background: #fff; color: var(--primary);
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    font-family: 'KoreaInstituteOfMachineryAndMaterials','Pretendard',sans-serif; font-weight: 700; font-size: 12px;
+  }
+  .dc-forms-title { font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+  .dc-forms .doc-list { gap: 7px; }
+  /* 행이 내용 폭으로 줄어들어 버튼 위치가 어긋나던 문제 수정 — 전 행 동일 폭 + 우측 정렬 */
+  .dc-forms .doc-list > li { display: block; }
+  .dc-forms .doc-row { width: 100%; box-sizing: border-box; min-height: 48px; }
+  .dc-forms .doc-row-formats { margin-left: auto; }
+  .dc-forms .doc-format-btn { min-width: 62px; min-height: 28px; justify-content: center; padding: 6px 9px; font-size: 11px; }
+  /* (필독) / (필수) 강조 */
+  .dc-req { font-style: normal; font-weight: 800; color: var(--yellow); margin-right: 2px; letter-spacing: -.02em; }
+
+  /* ── 제출서류 페이지 진입 CTA ── */
+  .dc-cta {
+    display: flex; align-items: center; gap: 13px; margin-top: 12px;
+    padding: 16px 18px; border-radius: 20px; text-decoration: none;
+    background: linear-gradient(135deg, #ff8059, #E04E1A); color: #fff;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 12px 28px rgba(224,78,26,.22);
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .dc-cta:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 16px 34px rgba(224,78,26,.30); }
+  .dc-cta:active { transform: translateY(0); }
+  .dc-cta-ico {
+    flex-shrink: 0; width: 42px; height: 42px; border-radius: 13px;
+    background: rgba(255,255,255,.20); display: inline-flex; align-items: center; justify-content: center;
+  }
+  .dc-cta-ico svg { width: 21px; height: 21px; }
+  .dc-cta-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .dc-cta-t { font-size: 16.5px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+  .dc-cta-s { font-size: 12.5px; line-height: 1.45; opacity: .92; word-break: keep-all; }
+  .dc-cta-arw { flex-shrink: 0; font-size: 19px; font-weight: 700; opacity: .9; }
+
+  /* ── 하단 공고문 안내 문장 ── */
+  .dc-caution-foot--solo {
+    margin-top: 16px; padding: 14px 16px; border-radius: 16px;
+    background: #fff; border: 1.5px solid var(--secondary);
+    box-shadow: 0 6px 18px rgba(255,102,51,.10);
+    font-size: 12.5px; line-height: 1.7; color: var(--ink); word-break: keep-all;
+  }
+
+  @media (max-width: 520px) {
+    .dc-summary { margin-top: 22px; gap: 6px; }
+    .dc-sum { padding: 11px 4px; border-radius: 14px; }
+    .dc-sum-nm { font-size: 10.5px; }
+    .dc-sum-ct { font-size: 17px; }
+    .dc-forms { padding: 15px 14px 14px; border-radius: 18px; }
+    .dc-cta { gap: 11px; padding: 14px 15px; border-radius: 18px; }
+    .dc-cta-ico { width: 38px; height: 38px; border-radius: 12px; }
+    .dc-cta-t { font-size: 15.5px; }
+    .dc-cta-s { font-size: 12px; }
+    .dc-caution-foot--solo { padding: 13px 14px; }
+  }
 </style>
 </head>
 <body>
@@ -1587,7 +1679,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#apply" class="hover:text-[var(--primary)] transition">신청 자격</a>
       <a href="#usage" class="hover:text-[var(--primary)] transition">사용 용도</a>
       <a href="#process" class="hover:text-[var(--primary)] transition">신청 방법</a>
-      <a href="#docs" class="hover:text-[var(--primary)] transition">제출 서류</a>
+      <a href="docs.html" data-docs-cta data-entry-point="nav_desktop" class="hover:text-[var(--primary)] transition">제출 서류</a>
       <a href="#faq" class="hover:text-[var(--primary)] transition">FAQ</a>
     </nav>
     <a href="mailto:warmfund@naver.com" class="hidden md:inline-flex btn-primary !py-2.5 !px-5 text-[13px]">이메일 문의</a>
@@ -1660,7 +1752,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span>신청 방법</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="ml-auto text-[var(--ink-3)]"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#docs" class="mobile-menu-link">
+        <a href="docs.html" data-docs-cta data-entry-point="nav_mobile" class="mobile-menu-link">
           <span class="mobile-menu-icon" style="background: var(--primary-tint);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#000096"/><path d="M14 2v6h6" stroke="white" stroke-width="1.5"/></svg>
           </span>
@@ -1753,7 +1845,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="white"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" fill="white"/></svg>
         신청자격 확인하기 <span>›</span>
       </a>
-      <a href="#docs" class="btn-secondary inline-flex items-center gap-2 text-[15px]">
+      <a href="docs.html" data-docs-cta data-entry-point="hero" class="btn-secondary inline-flex items-center gap-2 text-[15px]">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="white"/><path d="M14 2v6h6" stroke="#FF6633" stroke-width="1.5"/></svg>
         제출서류 확인하기 <span>›</span>
       </a>
@@ -2337,7 +2429,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   신청 방법 보기
                 </a>
-                <a href="#docs" class="btn-secondary inline-flex items-center justify-center gap-2">
+                <a href="docs.html" data-docs-cta data-entry-point="quiz_result" class="btn-secondary inline-flex items-center justify-center gap-2">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="white"/></svg>
                   제출서류 확인
                 </a>
@@ -2458,7 +2550,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="white"/><path d="M14 2v6h6" stroke="#000096" stroke-width="1.5"/></svg>
           신청 방법 확인하기
         </a>
-        <a href="#docs" class="btn-secondary inline-flex items-center gap-2">
+        <a href="docs.html" data-docs-cta data-entry-point="checklist" class="btn-secondary inline-flex items-center gap-2">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 7h18v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" fill="white"/><path d="M3 7l3-3h12l3 3" stroke="#FF6633" stroke-width="1.5" fill="white"/></svg>
           제출서류 확인하기
         </a>
@@ -2901,93 +2993,84 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ========================= 제출 서류 ========================= -->
 <section id="docs" class="py-12 md:py-16 px-5 md:px-8 bg-white">
-  <div class="max-w-[1280px] mx-auto">
+  <div class="max-w-[880px] mx-auto">
     <div class="text-center">
       <span class="section-label" data-editable contenteditable="false">제출 서류</span>
       <div class="slash mt-4"></div>
       <h2 class="font-pretendard-bold text-3xl md:text-5xl mt-4" data-editable contenteditable="false">신청에 필요한 서류를 미리 준비하세요</h2>
     </div>
 
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-      <!-- 01 신청서류 -->
-      <div class="doc-card text-white" style="background: linear-gradient(160deg, #1a1aa8, #000096);">
-        <div class="doc-card-head">
-          <span class="doc-num text-[var(--primary)]">01</span>
-          <h3 class="doc-title" data-editable contenteditable="false">신청서 작성</h3>
-        </div>
-        <ul class="doc-list">
-          <li>
-            <div class="doc-row">
-              <span class="doc-row-text"><strong>신청 안내문</strong> 다시 한번 확인 후 작성</span>
-              <span class="doc-row-formats">
-                <a href="assets/forms/application-guide.pdf" download="든든기금2_보증금대출_신청안내문.pdf" class="doc-format-btn doc-format-btn--pdf" data-doc-name="신청 안내문 (PDF)" aria-label="신청 안내문 PDF 다운로드"><span class="doc-format-icon">📄</span>PDF</a>
-                <a href="assets/forms/application-guide.doc" download="든든기금2_보증금대출_신청안내문.doc" class="doc-format-btn doc-format-btn--doc" data-doc-name="신청 안내문 (DOC)" aria-label="신청 안내문 DOC 다운로드"><span class="doc-format-icon">📝</span>DOC</a>
-              </span>
-            </div>
-          </li>
-          <li>
-            <div class="doc-row">
-              <span class="doc-row-text">보증금 대출사업 신청서 <span class="opacity-75">(해당 양식)</span></span>
-              <span class="doc-row-formats">
-                <a href="assets/forms/application-form.pdf" download="든든기금2_보증금대출_신청서_양식.pdf" class="doc-format-btn doc-format-btn--pdf" data-doc-name="보증금 대출사업 신청서 (PDF)" aria-label="보증금 대출사업 신청서 PDF 다운로드"><span class="doc-format-icon">📄</span>PDF</a>
-                <a href="assets/forms/application-form.doc" download="든든기금2_보증금대출_신청서_양식.doc" class="doc-format-btn doc-format-btn--doc" data-doc-name="보증금 대출사업 신청서 (DOC)" aria-label="보증금 대출사업 신청서 DOC 다운로드"><span class="doc-format-icon">📝</span>DOC</a>
-              </span>
-            </div>
-          </li>
-        </ul>
-        <button type="button" class="doc-zip-btn" id="zipDownloadBtn" data-zip-name="든든기금2_보증금대출_신청양식.zip" aria-label="신청 안내문과 신청서 양식을 한 번에 다운로드">
-          <span class="doc-zip-icon">📦</span><span class="doc-zip-label">전체 양식 한 번에 받기 (ZIP)</span>
-        </button>
-        <p class="doc-note">개별 형식은 위 버튼, 전체는 ZIP으로 받으세요.</p>
+    <!-- ===== 요약 바 (건수만) ===== -->
+    <div class="dc-summary">
+      <div class="dc-sum dc-sum--a">
+        <span class="dc-sum-no">01</span>
+        <span class="dc-sum-nm">신청서</span>
+        <span class="dc-sum-ct">1건</span>
       </div>
-
-      <!-- 02 공통서류 -->
-      <div class="doc-card text-white" style="background: linear-gradient(160deg, #3FA079, #247359);">
-        <div class="doc-card-head">
-          <span class="doc-num text-[#247359]">02</span>
-          <h3 class="doc-title" data-editable contenteditable="false">공통서류 준비</h3>
-        </div>
-        <ul class="doc-list">
-          <li><span class="doc-icon">📋</span><span data-editable contenteditable="false">현재·신규 주택 임대차계약서 사본</span></li>
-          <li><span class="doc-icon">📋</span><span data-editable contenteditable="false">주민등록등본 원본</span></li>
-          <li><span class="doc-icon">📋</span><span data-editable contenteditable="false">주민등록초본 원본</span></li>
-          <li><span class="doc-icon">📋</span><span data-editable contenteditable="false">신규주택 등기사항전부증명서 원본</span></li>
-          <li><span class="doc-icon">📋</span><span data-editable contenteditable="false">대출정보조회서 원본 또는 대출 관련 증빙 서류 원본</span></li>
-          <li><span class="doc-icon">📋</span><span data-editable contenteditable="false">(재계약 시) 증액 보증금 확인 가능 서류</span></li>
-        </ul>
+      <div class="dc-sum dc-sum--b">
+        <span class="dc-sum-no">02</span>
+        <span class="dc-sum-nm">공통서류</span>
+        <span class="dc-sum-ct">7건</span>
       </div>
-
-      <!-- 03 소득입증서류 -->
-      <div class="doc-card text-white" style="background: linear-gradient(160deg, #ff8059, #E04E1A);">
-        <div class="doc-card-head">
-          <span class="doc-num text-[var(--secondary)]">03</span>
-          <h3 class="doc-title" data-editable contenteditable="false">소득입증서류</h3>
-        </div>
-        <div class="doc-subhead">※ 공통</div>
-        <ul class="doc-list">
-          <li><span class="doc-icon">💼</span><span data-editable contenteditable="false">소득금액증명원 원본</span></li>
-          <li><span class="doc-icon">💼</span><span data-editable contenteditable="false">건강보험료 납부확인서 원본</span></li>
-          <li><span class="doc-icon">💼</span><span data-editable contenteditable="false">건강보험자격득실확인서 원본</span></li>
-        </ul>
-        <div class="doc-subhead mt-3">※ 본인 해당 소득 서류 제출</div>
-        <ul class="doc-list doc-list-inline">
-          <li><button type="button" class="doc-popup-btn" data-doc-popup="income-type" data-type="public">공적지원</button></li>
-          <li><button type="button" class="doc-popup-btn" data-doc-popup="income-type" data-type="work">근로소득</button></li>
-          <li><button type="button" class="doc-popup-btn" data-doc-popup="income-type" data-type="business">사업소득</button></li>
-          <li><button type="button" class="doc-popup-btn" data-doc-popup="income-type" data-type="pension">연금소득</button></li>
-          <li><button type="button" class="doc-popup-btn" data-doc-popup="income-type" data-type="etc">기타소득</button></li>
-        </ul>
-        <p class="doc-note">단어를 클릭하면 해당 서류를 확인할 수 있습니다.</p>
+      <div class="dc-sum dc-sum--c">
+        <span class="dc-sum-no">03</span>
+        <span class="dc-sum-nm">소득입증서류</span>
+        <span class="dc-sum-ct">3건+</span>
       </div>
     </div>
 
-    <div class="mt-8 rounded-2xl p-4 md:p-5 flex flex-wrap items-center gap-3 md:gap-4"
-         style="background: white; border: 1.5px solid var(--secondary); box-shadow: 0 6px 18px rgba(255, 102, 51, 0.10);">
-      <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--secondary)] text-white text-base font-bold flex-shrink-0">⚠</span>
-      <span class="text-sm md:text-[15px] text-[var(--ink)] flex-1 min-w-0" data-editable contenteditable="false">
-        제출서류는 신청 유형과 소득 상황에 따라 달라질 수 있습니다. 반드시 <a href="assets/forms/notice-2026-01.pdf" download="제2026-01호_주거취약계층_주거복지기금_대출지원사업_공고.pdf" class="doc-link-inline" data-doc-name="공고문"><strong>공고문</strong><svg class="doc-link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></a> 및 <a href="assets/forms/application-guide.pdf" download="든든기금2_보증금대출_신청안내문.pdf" class="doc-link-inline" data-doc-name="신청 안내문"><strong>신청서 작성 안내문</strong><svg class="doc-link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></a>을 확인한 뒤 제출해 주세요.
+    <!-- ===== 발급일 유효기간 (공고문) ===== -->
+    <div class="dc-alert">
+      <span class="dc-alert-ico" aria-hidden="true">📅</span>
+      <span><b>접수일 기준 1개월 이내 발급분만 유효</b>합니다. 접수 기간에 맞춰 발급해 주세요.</span>
+    </div>
+
+    <!-- ===== 신청서 양식 다운로드 ===== -->
+    <div class="dc-forms">
+      <div class="dc-forms-head">
+        <span class="dc-forms-no">01</span>
+        <span class="dc-forms-title">신청서 양식 받기</span>
+      </div>
+      <ul class="doc-list">
+        <li>
+          <div class="doc-row">
+            <span class="doc-row-text"><em class="dc-req">(필독)</em> 신청안내문</span>
+            <span class="doc-row-formats">
+              <a href="assets/forms/application-guide.pdf" download="든든기금2_보증금대출_신청안내문.pdf" class="doc-format-btn doc-format-btn--pdf" data-doc-name="신청 안내문 (PDF)" aria-label="신청안내문 PDF 다운로드"><span class="doc-format-icon">📄</span>PDF</a>
+              <a href="assets/forms/application-guide.doc" download="든든기금2_보증금대출_신청안내문.doc" class="doc-format-btn doc-format-btn--doc" data-doc-name="신청 안내문 (DOC)" aria-label="신청안내문 DOC 다운로드"><span class="doc-format-icon">📝</span>DOC</a>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div class="doc-row">
+            <span class="doc-row-text"><em class="dc-req">(필수)</em> 보증금 대출사업 신청서</span>
+            <span class="doc-row-formats">
+              <a href="assets/forms/application-form.pdf" download="든든기금2_보증금대출_신청서_양식.pdf" class="doc-format-btn doc-format-btn--pdf" data-doc-name="보증금 대출사업 신청서 (PDF)" aria-label="보증금 대출사업 신청서 PDF 다운로드"><span class="doc-format-icon">📄</span>PDF</a>
+              <a href="assets/forms/application-form.doc" download="든든기금2_보증금대출_신청서_양식.doc" class="doc-format-btn doc-format-btn--doc" data-doc-name="보증금 대출사업 신청서 (DOC)" aria-label="보증금 대출사업 신청서 DOC 다운로드"><span class="doc-format-icon">📝</span>DOC</a>
+            </span>
+          </div>
+        </li>
+      </ul>
+      <button type="button" class="doc-zip-btn" id="zipDownloadBtn" data-zip-name="든든기금2_보증금대출_신청양식.zip" aria-label="신청안내문과 신청서 양식을 한 번에 다운로드">
+        <span class="doc-zip-icon">📦</span><span class="doc-zip-label">전체 양식 한 번에 받기 (ZIP)</span>
+      </button>
+    </div>
+
+    <!-- ===== 제출서류 페이지 진입 CTA ===== -->
+    <a href="docs.html" class="dc-cta" data-docs-cta data-entry-point="docs_summary">
+      <span class="dc-cta-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       </span>
-    </div>
+      <span class="dc-cta-body">
+        <b class="dc-cta-t">제출서류 확인하기</b>
+        <span class="dc-cta-s">계약·가구·소득 유형을 고르면 내가 낼 서류만 표시됩니다</span>
+      </span>
+      <span class="dc-cta-arw" aria-hidden="true">→</span>
+    </a>
+
+    <p class="dc-caution-foot dc-caution-foot--solo">
+      제출서류는 신청 유형과 소득 상황에 따라 달라질 수 있습니다. 반드시 <a href="assets/forms/notice-2026-01.pdf" download="제2026-01호_주거취약계층_주거복지기금_대출지원사업_공고.pdf" class="doc-link-inline" data-doc-name="공고문"><strong>공고문</strong><svg class="doc-link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></a> 및 <a href="assets/forms/application-guide.pdf" download="든든기금2_보증금대출_신청안내문.pdf" class="doc-link-inline" data-doc-name="신청 안내문"><strong>신청서 작성 안내문</strong><svg class="doc-link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></a>을 확인한 뒤 제출해 주세요.
+    </p>
   </div>
 </section>
 
@@ -3281,7 +3364,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </span>
         <span data-editable contenteditable="false">신청자격 확인하기</span>
       </a>
-      <a href="#docs" class="cta-pill w-full max-w-[320px] md:w-auto md:max-w-none justify-center md:justify-start">
+      <a href="docs.html" data-docs-cta data-entry-point="final_cta" class="cta-pill w-full max-w-[320px] md:w-auto md:max-w-none justify-center md:justify-start">
         <span class="cta-icon" style="background:#E5F2EC;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 7h18v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" fill="#247359"/><path d="M3 7l3-3h12l3 3" stroke="#247359" stroke-width="1.5" fill="white"/></svg>
         </span>
@@ -3349,7 +3432,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#000096"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" fill="#000096"/></svg>
       신청자격 확인
     </a>
-    <a href="#docs" class="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-full font-pretendard-bold text-[14px] text-white bg-[var(--secondary)] active:opacity-90 transition shadow-[0_8px_22px_rgba(255,102,51,0.40)]">
+    <a href="docs.html" data-docs-cta data-entry-point="mobile_cta" class="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-full font-pretendard-bold text-[14px] text-white bg-[var(--secondary)] active:opacity-90 transition shadow-[0_8px_22px_rgba(255,102,51,0.40)]">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 7h18v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" fill="white"/><path d="M3 7l3-3h12l3 3" stroke="#FF6633" stroke-width="1.5" fill="white"/></svg>
       서류 확인
     </a>
@@ -3494,108 +3577,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<!-- ========================= 소득 종류별 서류 안내 모달 ========================= -->
-<div class="modal-backdrop" id="modal-income-type" data-modal-backdrop>
-  <div class="modal-card">
-    <div class="modal-head" style="background: linear-gradient(135deg, #ff8059, #E04E1A);">
-      <div>
-        <div class="text-[12px] font-bold opacity-80">소득입증 서류 안내</div>
-        <div id="incomeTypeTitle" class="font-display text-xl md:text-2xl mt-0.5">소득 종류별 제출 서류</div>
-      </div>
-      <button class="modal-close" data-modal-close aria-label="모달 닫기">×</button>
-    </div>
-    <div class="modal-body">
-      <div id="incomeTypeContent">
-        <!-- JS로 동적 로드 -->
-      </div>
-      <p class="text-[11px] text-[var(--ink-3)] mt-4 leading-relaxed">
-        ※ 위의 서류 중 택일<br/>※ 직전 3개월 소득 확인 가능해야 함.
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-footer-btn" data-modal-close style="background: var(--secondary);">확인했습니다</button>
-    </div>
-  </div>
-</div>
-
 <script>
-
-  // ============================================
-  // 소득 종류별 서류 안내 팝업 (제출서류 03 카드)
-  // ============================================
-  const INCOME_TYPE_DATA = {
-    public: {
-      title: '공적지원 수급자',
-      items: [
-        '기초생활수급자증명서',
-        '차상위계층 확인서',
-        '한부모가족 증명서',
-        '기타 공적지원 수급 확인서류',
-      ],
-      note: '해당 공적지원을 받고 있다는 사실을 증명하는 공식 문서를 제출하세요.',
-    },
-    work: {
-      title: '근로소득자',
-      items: [
-        '근로소득원천징수영수증',
-        '급여명세표(임금대장, 갑근세원천징수확인서 등)',
-        '소득확인증명서(ISA가입용)',
-      ],
-      note: '회사에서 근무하며 급여를 받는 경우 위 서류 중 해당 서류를 제출하세요.',
-    },
-    business: {
-      title: '사업소득자',
-      items: [
-        '사업자등록증 사본',
-        '부가가치세 과세표준증명원',
-        '종합소득세 신고서 또는 소득금액증명원',
-      ],
-      note: '개인사업자 또는 프리랜서로 사업 소득이 있는 경우 위 서류를 제출하세요.',
-    },
-    pension: {
-      title: '연금소득자',
-      items: [
-        '국민연금/공무원연금 등 수급 증명서',
-        '연금 입금 통장 사본 (최근 3개월)',
-        '연금소득 원천징수영수증',
-      ],
-      note: '국민연금, 공무원연금, 사학연금 등 연금 소득이 있는 경우 위 서류를 제출하세요.',
-    },
-    etc: {
-      title: '기타소득자',
-      items: [
-        '기타 소득 발생 증빙서류 (계약서, 입금내역 등)',
-      ],
-      note: '근로·사업·연금 외 기타 소득(이자, 배당, 강의료 등)이 있는 경우 증빙 서류를 제출하세요.',
-    },
-  };
-
-  document.querySelectorAll('.doc-popup-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const type = btn.getAttribute('data-type');
-      const data = INCOME_TYPE_DATA[type];
-      if (!data) return;
-
-      const titleEl = document.getElementById('incomeTypeTitle');
-      const contentEl = document.getElementById('incomeTypeContent');
-      if (titleEl) titleEl.textContent = data.title;
-      if (contentEl) {
-        const itemsHtml = data.items.map(i => `<li class="flex items-center gap-2 py-1.5"><span class="text-[var(--secondary)] leading-none flex-shrink-0">●</span><span class="text-[14px] text-[var(--ink-2)]">${i}</span></li>`).join('');
-        contentEl.innerHTML = `
-          <p class="text-[13px] text-[var(--ink-2)] mb-4">${data.note}</p>
-          <div class="rounded-2xl p-4" style="background: var(--bg);">
-            <div class="text-xs font-bold text-[var(--ink-3)] mb-2">제출 가능 서류</div>
-            <ul class="space-y-0">${itemsHtml}</ul>
-          </div>
-        `;
-      }
-      const modal = document.getElementById('modal-income-type');
-      if (modal) {
-        modal.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-      }
-    });
-  });
 
   // 다운로드 링크 클릭 추적 (개발용 콘솔 로그)
   document.querySelectorAll('.doc-link').forEach(link => {
