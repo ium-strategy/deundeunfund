@@ -100,6 +100,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .dc-alert b { color: #d4451a; font-weight: 800; }
   .dc-alert-ico { flex-shrink: 0; font-size: 14px; line-height: 1.45; }
 
+  .dc-alert--sub {
+    margin-top: 6px; background: #EEF0F7; border-color: #C9CEE4; font-size: 12.5px;
+  }
+  .dc-alert--sub b { color: var(--primary); }
+
+  /* ── 신청 유형 안내 ── */
+  .dp-acc--type { margin-top: 12px; border: 1.5px solid #C9CEE4; background: #F7F8FD; }
+  .dp-acc--type .dp-acc-head { color: var(--primary); }
+  .dp-tnote { margin: 0 0 12px; font-size: 12.5px; line-height: 1.65; color: var(--ink-2); word-break: keep-all; }
+  .dp-tnote b { color: var(--primary); font-weight: 800; }
+  .dp-tgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .dp-tcard { padding: 12px 12px 11px; border-radius: 14px; background: #fff; }
+  .dp-tcard--youth { border: 1.5px solid #C5C8E8; }
+  .dp-tcard--low { border: 1.5px solid #FFCDB6; }
+  .dp-tcard-h { font-size: 13.5px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 9px; }
+  .dp-tcard--youth .dp-tcard-h { color: #000096; }
+  .dp-tcard--low .dp-tcard-h { color: #C2410C; }
+  .dp-tlist { display: grid; grid-template-columns: 34px 1fr; gap: 5px 8px; margin: 0 0 10px; }
+  .dp-tlist dt { font-size: 10.5px; font-weight: 800; color: var(--ink-3); padding-top: 1px; }
+  .dp-tlist dd { margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink-2); word-break: keep-all; }
+  .dp-tlist dd b { color: var(--ink); font-weight: 800; }
+  .dp-tsub { font-size: 10.5px; color: var(--ink-3); }
+  .dp-thint { margin: 10px 0 0 !important; }
+
   /* ── 빠른 안내 타일 (3열 균등 정렬) ── */
   .dp-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 12px; }
   .dp-quick-btn {
@@ -595,6 +619,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="dc-alert-ico" aria-hidden="true">📅</span>
         <span><b>접수일 기준 1개월 이내 발급분만 유효</b>합니다. 접수 기간(짝수월 1일~15일)에 맞춰 발급해 주세요.</span>
       </div>
+      <div class="dc-alert dc-alert--sub">
+        <span class="dc-alert-ico" aria-hidden="true">🖨️</span>
+        <span>공적 서류는 모두 <b>발급용</b>으로 발급 및 제출해 주시기 바랍니다. (열람용으로 제출 시 보완 요청 대상입니다.)</span>
+      </div>
 
       <div class="dp-quick">
         <button type="button" class="dp-quick-btn" data-quick="submit">
@@ -606,6 +634,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button type="button" class="dp-quick-btn" data-quick="print">
           <span class="dp-quick-ico" aria-hidden="true">🖨️</span><span class="dp-quick-tx">체크리스트<br/>인쇄·저장</span>
         </button>
+      </div>
+    </div>
+
+    <!-- 신청 유형 안내 -->
+    <div class="dp-acc dp-acc--type" id="dpType">
+      <button type="button" class="dp-acc-head" id="dpTypeToggle" data-acc="type" aria-expanded="false">
+        <span aria-hidden="true">🧭</span>청년·저소득층, 어느 유형으로 신청할까요?
+        <span class="dp-acc-arw" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="dp-acc-body" id="dpTypeBody" hidden>
+        <p class="dp-tnote">만 19~39세이면서 중위소득 100% 이하라면 <b>두 유형 모두 해당</b>될 수 있습니다. 한도와 금리를 확인한 뒤 하나를 선택해 신청서에 표시하시면 됩니다. <b>제출서류는 두 유형이 동일</b>합니다.</p>
+        <div class="dp-tgrid">
+          <div class="dp-tcard dp-tcard--youth">
+            <div class="dp-tcard-h">청년</div>
+            <dl class="dp-tlist">
+              <dt>나이</dt><dd>만 19~39세 (입주일 기준)</dd>
+              <dt>소득</dt><dd>중위소득 130% 이하</dd>
+              <dt>한도</dt><dd><b>최대 1,500만 원</b><br/><span class="dp-tsub">임차보증금의 50% 이내</span></dd>
+              <dt>금리</dt><dd><b>연 2%</b></dd>
+            </dl>
+            <button type="button" class="dc-std" data-modal="income-130">소득 기준표 보기 ›</button>
+          </div>
+          <div class="dp-tcard dp-tcard--low">
+            <div class="dp-tcard-h">저소득층</div>
+            <dl class="dp-tlist">
+              <dt>나이</dt><dd>제한 없음</dd>
+              <dt>소득</dt><dd>중위소득 100% 이하</dd>
+              <dt>한도</dt><dd><b>최대 500만 원</b><br/><span class="dp-tsub">임차보증금의 50% 이내</span></dd>
+              <dt>금리</dt><dd><b>연 1%</b></dd>
+            </dl>
+            <button type="button" class="dc-std is-low" data-modal="income-100">소득 기준표 보기 ›</button>
+          </div>
+        </div>
+        <div class="dc-hint is-on dp-thint">
+          <span aria-hidden="true">💬</span>
+          <span><b>저소득층으로 신청하는 경우</b> 공공기관(주민센터, 주거복지센터, 사회복지관 등) 담당자와 상담한 뒤 신청하도록 안내되어 있습니다. 신청서에 기관명과 담당자 연락처를 기재하는 칸이 있습니다.</span>
+        </div>
       </div>
     </div>
 
@@ -1348,6 +1413,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var accSub = acc('dpSubmitToggle', 'dpSubmitBody');
   var accCau = acc('dpCautionToggle', 'dpCautionBody');
   var accDet = acc('dpDetailToggle', 'dpDetailBody');
+  var accType = acc('dpTypeToggle', 'dpTypeBody');
 
   function openAcc(a) {
     if (!a) return;
@@ -1368,7 +1434,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   function doPrint() {
     push('docs_save', { save_type: 'print' });
-    [accDet, accSub, accCau].forEach(function (a) {
+    [accType, accDet, accSub, accCau].forEach(function (a) {
       if (a) { a.body.hidden = false; a.btn.setAttribute('aria-expanded', 'true'); }
     });
     setTimeout(function () { window.print(); }, 150);
