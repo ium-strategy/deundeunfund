@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>든든기금 관리자 대시보드</title>
+
+<!-- ===== 폰트 ===== -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+@font-face {
+  font-family: 'KIMM Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+</style>
+
+<!-- ===== 외부 라이브러리 ===== -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<style>
+  :root{
+    --navy:#000096; --navy-2:#4A4AB8; --navy-3:#8A8AD6; --navy-4:#C2C2EC;
+    --orange:#FF6633; --orange-soft:#FF9466;
+    --canvas:#F4F5F8; --card:#FFFFFF; --ink:#16162B; --muted:#6B7280; --line:#E7E9F1;
+  }
+  *{ font-family:'Pretendard', system-ui, sans-serif; }
+  .font-head{ font-family:'KIMM Bold','Pretendard', sans-serif; }
+  body{ background:var(--canvas); color:var(--ink); }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:1rem; }
+  .btn-primary{ background:var(--navy); color:#fff; transition:.15s; }
+  .btn-primary:hover{ background:var(--navy-2); }
+  .btn-primary:disabled{ opacity:.5; cursor:not-allowed; }
+  .chip{ border:1px solid var(--line); color:var(--muted); background:#fff; }
+  .chip.active{ background:var(--navy); border-color:var(--navy); color:#fff; }
+  .chip:hover:not(.active){ border-color:var(--navy-3); color:var(--navy); }
+  .up{ color:#0F9D58; }
+  .down{ color:#E5484D; }
+  .skeleton{ background:linear-gradient(90deg,#EEF0F6 25%,#F7F8FA 37%,#EEF0F6 63%); background-size:400% 100%; animation:sk 1.4s ease infinite; }
+  @keyframes sk{ 0%{background-position:100% 50%;} 100%{background-position:0 50%;} }
+  table.data-table{ width:100%; border-collapse:collapse; font-size:.875rem; }
+  table.data-table th{ text-align:left; color:var(--muted); font-weight:600; padding:.5rem .75rem; border-bottom:1px solid var(--line); white-space:nowrap; }
+  table.data-table td{ padding:.55rem .75rem; border-bottom:1px solid var(--line); }
+  table.data-table tr:last-child td{ border-bottom:none; }
+  table.data-table td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  ::-webkit-scrollbar{ height:6px; width:6px; }
+  ::-webkit-scrollbar-thumb{ background:var(--navy-4); border-radius:99px; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ===== 설정값 (배포 전 필수 입력) ===== -->
+<script>
+const CONFIG = {
+  GA4_PROPERTY_ID: '',   // 예: '123456789' — GA4 관리 > 속성 설정 상단의 숫자
+  OAUTH_CLIENT_ID: ''    // 예: 'xxxxx.apps.googleusercontent.com' — Google Cloud Console에서 발급
+};
+</script>
+
+<!-- ===== 1) 설정 미완료 안내 화면 ===== -->
+<div id="setup-screen" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
+  <div class="card max-w-2xl w-full p-8 sm:p-10">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="inline-flex items-center justify-center w-10 h-10 rounded-full" style="background:var(--orange-soft)22;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>
+      </span>
+      <h1 class="font-head text-xl sm:text-2xl" style="color:var(--navy);">관리자 대시보드 설정이 필요합니다</h1>
+    </div>
+    <p class="text-sm mb-8" style="color:var(--muted);">
+      이 페이지는 GA4(Google Analytics 4) 데이터를 불러오도록 설정하기 전까지 실제 방문 데이터를 표시하지 않습니다.
+      아래 3단계를 완료한 뒤 <code class="px-1 rounded" style="background:var(--canvas);">admin.html</code> 상단의 <code class="px-1 rounded" style="background:var(--canvas);">CONFIG</code> 값을 채워주세요.
+    </p>
+
+    <ol class="space-y-6">
+      <li class="flex gap-4">
+        <span class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-white" style="background:var(--navy);">1</span>
+        <div>
+          <p class="font-bold mb-1">GA4 속성 ID 확인</p>
+          <p class="text-sm" style="color:var(--muted);">GA4 관리(Admin) → 속성 설정 상단의 숫자를 <code class="px-1 rounded" style="background:var(--canvas);">GA4_PROPERTY_ID</code>에 입력하세요.
+            측정 ID(<code class="px-1 rounded" style="background:var(--canvas);">G-38RPQSW8WG</code>)와는 다른 값입니다.</p>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-white" style="background:var(--navy);">2</span>
+        <div>
+          <p class="font-bold mb-1">OAuth 클라이언트 ID 발급</p>
+          <p class="text-sm" style="color:var(--muted);">Google Cloud Console → API 및 서비스 → 사용자 인증 정보에서 "웹 애플리케이션" 유형으로 발급 후
+            <code class="px-1 rounded" style="background:var(--canvas);">OAUTH_CLIENT_ID</code>에 입력하세요.</p>
+          <ul class="text-sm mt-2 space-y-1 list-disc list-inside" style="color:var(--muted);">
+            <li>승인된 자바스크립트 원본에 <code class="px-1 rounded" style="background:var(--canvas);">https://safehome.warmfund.net</code> 및 <code class="px-1 rounded" style="background:var(--canvas);">https://ium-strategy.github.io</code> 추가</li>
+            <li>"Google Analytics Data API" 사용 설정</li>
+            <li>OAuth 동의 화면에 관리자 이메일을 테스트 사용자로 등록</li>
+            <li>스코프: <code class="px-1 rounded" style="background:var(--canvas);">https://www.googleapis.com/auth/analytics.readonly</code></li>
+          </ul>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-white" style="background:var(--navy);">3</span>
+        <div>
+          <p class="font-bold mb-1">저장 후 재배포</p>
+          <p class="text-sm" style="color:var(--muted);">두 값을 저장하고 <code class="px-1 rounded" style="background:var(--canvas);">admin.html</code>을 다시 push하면 이 안내 대신 로그인 화면이 표시됩니다.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===== 2) 로그인 게이트 화면 ===== -->
+<div id="gate-screen" class="hidden min-h-screen flex items-center justify-center px-4 py-12">
+  <div class="card max-w-md w-full p-8 sm:p-10 text-center">
+    <h1 class="font-head text-xl sm:text-2xl mb-2" style="color:var(--navy);">든든기금 관리자 대시보드</h1>
+    <p class="text-sm mb-8" style="color:var(--muted);">GA4 조회 권한이 있는 Google 계정으로 로그인하면<br>방문 데이터를 확인할 수 있습니다.</p>
+    <button id="login-btn" class="btn-primary w-full py-3 rounded-xl font-bold">Google 계정으로 로그인</button>
+    <p id="gate-status" class="text-sm mt-4"></p>
+  </div>
+</div>
+
+<!-- ===== 3) 대시보드 화면 ===== -->
+<div id="dashboard" class="hidden max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+  <header class="flex flex-wrap items-center justify-between gap-4 mb-6">
+    <div>
+      <h1 class="font-head text-xl sm:text-2xl" style="color:var(--navy);">든든기금 관리자 대시보드</h1>
+      <p id="range-info" class="text-sm mt-1" style="color:var(--muted);"></p>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="flex rounded-lg overflow-hidden border" style="border-color:var(--line);">
+        <button class="chip period-btn px-4 py-2 text-sm font-semibold" data-days="7">7일</button>
+        <button class="chip period-btn px-4 py-2 text-sm font-semibold" data-days="28">28일</button>
+        <button class="chip period-btn px-4 py-2 text-sm font-semibold" data-days="90">90일</button>
+      </div>
+      <button id="refresh-btn" class="chip px-3 py-2 rounded-lg text-sm font-semibold" title="새로고침">↻</button>
+    </div>
+  </header>
+
+  <div id="error-banner" class="hidden mb-6 px-4 py-3 rounded-xl text-sm" style="background:#FDECEC; color:#B3261E; border:1px solid #F5C2C2;"></div>
+
+  <!-- KPI 카드 -->
+  <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="kpi-grid">
+    <div class="card p-5" data-kpi="activeUsers">
+      <p class="text-sm" style="color:var(--muted);">활성 사용자</p>
+      <p class="kpi-value text-2xl sm:text-3xl font-bold mt-1 font-head">–</p>
+      <p class="kpi-delta text-sm mt-1">–</p>
+    </div>
+    <div class="card p-5" data-kpi="sessions">
+      <p class="text-sm" style="color:var(--muted);">세션</p>
+      <p class="kpi-value text-2xl sm:text-3xl font-bold mt-1 font-head">–</p>
+      <p class="kpi-delta text-sm mt-1">–</p>
+    </div>
+    <div class="card p-5" data-kpi="screenPageViews">
+      <p class="text-sm" style="color:var(--muted);">페이지뷰</p>
+      <p class="kpi-value text-2xl sm:text-3xl font-bold mt-1 font-head">–</p>
+      <p class="kpi-delta text-sm mt-1">–</p>
+    </div>
+    <div class="card p-5" data-kpi="newUsers">
+      <p class="text-sm" style="color:var(--muted);">신규 사용자</p>
+      <p class="kpi-value text-2xl sm:text-3xl font-bold mt-1 font-head">–</p>
+      <p class="kpi-delta text-sm mt-1">–</p>
+    </div>
+  </section>
+
+  <!-- 추이 차트 -->
+  <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+    <div class="card p-5 lg:col-span-2">
+      <h2 class="font-bold mb-3">일자별 추이</h2>
+      <div class="relative" style="height:280px;"><canvas id="chart-daily"></canvas></div>
+    </div>
+    <div class="card p-5">
+      <h2 class="font-bold mb-3">채널별 세션 비중</h2>
+      <div class="relative" style="height:280px;"><canvas id="chart-channel"></canvas></div>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+    <div class="card p-5 lg:col-span-2">
+      <h2 class="font-bold mb-3">시간대별 세션 분포</h2>
+      <div class="relative" style="height:240px;"><canvas id="chart-hour"></canvas></div>
+    </div>
+    <div class="card p-5">
+      <h2 class="font-bold mb-3">소스/매체 Top 10</h2>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead><tr><th>소스/매체</th><th class="num">세션</th><th class="num">사용자</th></tr></thead>
+          <tbody id="table-source-medium"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-1 gap-4 mb-4">
+    <div class="card p-5">
+      <h2 class="font-bold mb-3">인기 페이지 Top 10</h2>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead><tr><th>페이지 경로</th><th class="num">페이지뷰</th></tr></thead>
+          <tbody id="table-pages"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-xs text-center py-4" style="color:var(--muted);">
+    데이터 생성 시각: <span id="generated-at">–</span> · GA4 속성 데이터를 브라우저에서 직접 조회합니다.
+  </footer>
+</div>
+
+<script>
+const CHART_PALETTE = ['#000096','#4A4AB8','#8A8AD6','#C2C2EC','#FF6633','#FF9466','#B9B9DE'];
+
+const state = {
+  token: null,
+  tokenClient: null,
+  days: 7,
+  charts: {}
+};
+
+// ---------- 날짜 유틸 ----------
+function ymd(d){ return d.toISOString().slice(0,10); }
+function rangeFor(days){
+  const end = new Date();
+  const start = new Date(); start.setDate(end.getDate()-(days-1));
+  const pEnd = new Date(start); pEnd.setDate(start.getDate()-1);
+  const pStart = new Date(pEnd); pStart.setDate(pEnd.getDate()-(days-1));
+  return { startDate:ymd(start), endDate:ymd(end), prevStart:ymd(pStart), prevEnd:ymd(pEnd) };
+}
+function fmtDate(ga4date){
+  // 'YYYYMMDD' -> 'MM/DD'
+  return `${ga4date.slice(4,6)}/${ga4date.slice(6,8)}`;
+}
+function fmtInt(n){ return Number(n).toLocaleString('ko-KR'); }
+
+// ---------- GA4 Data API ----------
+async function runReport(body){
+  const url = `https://analyticsdata.googleapis.com/v1beta/properties/${CONFIG.GA4_PROPERTY_ID}:runReport`;
+  const res = await fetch(url, {
+    method:'POST',
+    headers:{ 'Authorization':`Bearer ${state.token}`, 'Content-Type':'application/json' },
+    body: JSON.stringify(body)
+  });
+  if(res.status===401){ state.token=null; requestToken(); throw new Error('로그인이 만료되어 재인증을 요청했습니다. 다시 시도하세요.'); }
+  if(!res.ok){ const t=await res.text(); throw new Error(`GA4 응답 오류 (${res.status}): ${t.slice(0,200)}`); }
+  return res.json();
+}
+
+const rows = r => (r && r.rows) ? r.rows : [];
+const dv = (row,i) => row.dimensionValues[i].value;
+const mv = (row,i) => Number(row.metricValues[i].value);
+
+// ---------- OAuth (Google Identity Services) ----------
+function initToken(){
+  if(!window.google || !google.accounts || !google.accounts.oauth2){
+    setTimeout(initToken, 200);
+    return;
+  }
+  state.tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CONFIG.OAUTH_CLIENT_ID,
+    scope: 'https://www.googleapis.com/auth/analytics.readonly',
+    callback: (resp)=>{
+      if(resp.error){ showGateStatus(`로그인 실패: ${resp.error}`, true); return; }
+      state.token = resp.access_token;
+      enterDashboard();
+    }
+  });
+  document.getElementById('login-btn').disabled = false;
+}
+function requestToken(){
+  if(!state.tokenClient){ showGateStatus('로그인 준비 중입니다. 잠시 후 다시 시도하세요.', true); return; }
+  showGateStatus('');
+  state.tokenClient.requestAccessToken({ prompt: state.token ? '' : 'consent' });
+}
+function showGateStatus(msg, isError){
+  const el = document.getElementById('gate-status');
+  el.textContent = msg || '';
+  el.style.color = isError ? '#E5484D' : 'var(--muted)';
+  document.getElementById('gate-screen').classList.remove('hidden');
+}
+
+function enterDashboard(){
+  document.getElementById('gate-screen').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  refresh();
+}
+
+// ---------- 데이터 갱신 ----------
+async function refresh(){
+  hideError();
+  const R = rangeFor(state.days);
+  const dr = [{startDate:R.startDate, endDate:R.endDate}];
+  const totalMetrics = [{name:'activeUsers'},{name:'sessions'},{name:'screenPageViews'},{name:'newUsers'}];
+
+  document.getElementById('range-info').textContent =
+    `조회 기간: ${R.startDate} ~ ${R.endDate} (직전 동일 기간: ${R.prevStart} ~ ${R.prevEnd})`;
+
+  try{
+    const [tCur, tPrev, daily, hour, channel, sm, pages] = await Promise.all([
+      runReport({dateRanges:dr, metrics:totalMetrics}),
+      runReport({dateRanges:[{startDate:R.prevStart, endDate:R.prevEnd}], metrics:totalMetrics}),
+      runReport({dateRanges:dr, dimensions:[{name:'date'}], metrics:[{name:'sessions'},{name:'activeUsers'}],
+                 orderBys:[{dimension:{dimensionName:'date'}}]}),
+      runReport({dateRanges:dr, dimensions:[{name:'hour'}], metrics:[{name:'sessions'}]}),
+      runReport({dateRanges:dr, dimensions:[{name:'sessionDefaultChannelGroup'}], metrics:[{name:'sessions'}],
+                 orderBys:[{metric:{metricName:'sessions'},desc:true}], limit:10}),
+      runReport({dateRanges:dr, dimensions:[{name:'sessionSourceMedium'}], metrics:[{name:'sessions'},{name:'activeUsers'}],
+                 orderBys:[{metric:{metricName:'sessions'},desc:true}], limit:10}),
+      runReport({dateRanges:dr, dimensions:[{name:'pagePath'}], metrics:[{name:'screenPageViews'}],
+                 orderBys:[{metric:{metricName:'screenPageViews'},desc:true}], limit:10}),
+    ]);
+
+    renderKPIs(tCur, tPrev, totalMetrics);
+    renderDaily(daily);
+    renderHour(hour);
+    renderChannels(channel);
+    renderSourceMedium(sm);
+    renderPages(pages);
+
+    document.getElementById('generated-at').textContent = new Date().toLocaleString('ko-KR');
+  }catch(err){
+    showError(err.message || String(err));
+  }
+}
+
+function showError(msg){
+  const el = document.getElementById('error-banner');
+  el.textContent = msg;
+  el.classList.remove('hidden');
+}
+function hideError(){
+  document.getElementById('error-banner').classList.add('hidden');
+}
+
+// ---------- 렌더링 ----------
+function renderKPIs(cur, prev, metrics){
+  const curRow = rows(cur)[0];
+  const prevRow = rows(prev)[0];
+  metrics.forEach((m, i)=>{
+    const curVal = curRow ? mv(curRow, i) : 0;
+    const prevVal = prevRow ? mv(prevRow, i) : 0;
+    const card = document.querySelector(`[data-kpi="${m.name}"]`);
+    if(!card) return;
+    card.querySelector('.kpi-value').textContent = fmtInt(curVal);
+    const deltaEl = card.querySelector('.kpi-delta');
+    if(prevVal === 0){
+      deltaEl.textContent = curVal > 0 ? '신규' : '–';
+      deltaEl.className = 'kpi-delta text-sm mt-1';
+    } else {
+      const pct = ((curVal - prevVal) / prevVal) * 100;
+      const sign = pct >= 0 ? '+' : '';
+      deltaEl.textContent = `${sign}${pct.toFixed(1)}% (전기간 대비)`;
+      deltaEl.className = 'kpi-delta text-sm mt-1 ' + (pct >= 0 ? 'up' : 'down');
+    }
+  });
+}
+
+function renderDaily(daily){
+  const R = rangeFor(state.days);
+  const map = {};
+  rows(daily).forEach(r => { map[dv(r,0)] = { sessions: mv(r,0), users: mv(r,1) }; });
+
+  const labels = [], sessions = [], users = [];
+  const cursor = new Date(R.startDate);
+  const end = new Date(R.endDate);
+  while(cursor <= end){
+    const key = ymd(cursor).replace(/-/g,'');
+    labels.push(fmtDate(key));
+    sessions.push(map[key] ? map[key].sessions : 0);
+    users.push(map[key] ? map[key].users : 0);
+    cursor.setDate(cursor.getDate()+1);
+  }
+
+  drawChart('chart-daily', 'bar', {
+    labels,
+    datasets: [
+      { type:'bar', label:'세션', data:sessions, backgroundColor: CHART_PALETTE[0], borderRadius:4, order:2, yAxisID:'y' },
+      { type:'line', label:'활성 사용자', data:users, borderColor: CHART_PALETTE[4], backgroundColor: CHART_PALETTE[4], tension:.35, order:1, yAxisID:'y', pointRadius:2 }
+    ]
+  }, {
+    scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }
+  });
+}
+
+function renderHour(hour){
+  const map = {};
+  rows(hour).forEach(r => { map[Number(dv(r,0))] = mv(r,0); });
+  const labels = [], data = [];
+  for(let h=0; h<24; h++){ labels.push(`${h}시`); data.push(map[h] || 0); }
+  const peak = data.indexOf(Math.max(...data));
+  const colors = data.map((_,i) => i===peak ? CHART_PALETTE[4] : CHART_PALETTE[0]);
+
+  drawChart('chart-hour', 'bar', {
+    labels,
+    datasets: [{ label:'세션', data, backgroundColor: colors, borderRadius:3 }]
+  }, {
+    plugins:{ legend:{ display:false } },
+    scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }
+  });
+}
+
+function renderChannels(channel){
+  const r = rows(channel);
+  const labels = r.map(row => dv(row,0));
+  const data = r.map(row => mv(row,0));
+
+  drawChart('chart-channel', 'doughnut', {
+    labels,
+    datasets: [{ data, backgroundColor: CHART_PALETTE, borderWidth:0 }]
+  }, {
+    plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{ size:11 } } } }
+  });
+}
+
+function renderSourceMedium(sm){
+  const tbody = document.getElementById('table-source-medium');
+  const r = rows(sm);
+  tbody.innerHTML = r.length ? r.map(row => `
+    <tr>
+      <td class="truncate max-w-[10rem]" title="${dv(row,0)}">${dv(row,0)}</td>
+      <td class="num">${fmtInt(mv(row,0))}</td>
+      <td class="num">${fmtInt(mv(row,1))}</td>
+    </tr>
+  `).join('') : `<tr><td colspan="3" class="text-center py-4" style="color:var(--muted);">데이터가 없습니다</td></tr>`;
+}
+
+function renderPages(pages){
+  const tbody = document.getElementById('table-pages');
+  const r = rows(pages);
+  tbody.innerHTML = r.length ? r.map(row => `
+    <tr>
+      <td class="truncate max-w-[24rem]" title="${dv(row,0)}">${dv(row,0)}</td>
+      <td class="num">${fmtInt(mv(row,0))}</td>
+    </tr>
+  `).join('') : `<tr><td colspan="2" class="text-center py-4" style="color:var(--muted);">데이터가 없습니다</td></tr>`;
+}
+
+function drawChart(canvasId, type, data, extraOptions){
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  if(state.charts[canvasId]) state.charts[canvasId].destroy();
+  state.charts[canvasId] = new Chart(ctx, {
+    type,
+    data,
+    options: Object.assign({
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{ legend:{ labels:{ font:{ family:'Pretendard' } } } }
+    }, extraOptions)
+  });
+}
+
+// ---------- 초기화 ----------
+function initUI(){
+  document.querySelectorAll('.period-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      state.days = Number(btn.dataset.days);
+      refresh();
+    });
+  });
+  document.querySelector(`.period-btn[data-days="${state.days}"]`).classList.add('active');
+  document.getElementById('refresh-btn').addEventListener('click', refresh);
+  document.getElementById('login-btn').addEventListener('click', requestToken);
+}
+
+window.addEventListener('DOMContentLoaded', ()=>{
+  initUI();
+  if(!CONFIG.GA4_PROPERTY_ID || !CONFIG.OAUTH_CLIENT_ID){
+    document.getElementById('setup-screen').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('login-btn').disabled = true;
+  showGateStatus('로그인 준비 중...');
+  initToken();
+  showGateStatus('');
+});
+</script>
+</body>
+</html>
