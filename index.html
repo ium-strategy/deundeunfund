@@ -2254,7 +2254,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var amtWon = amtMan * 10000;
     var y = +document.getElementById('calc-sel-year').value;
     var m = +document.getElementById('calc-sel-month').value;
-    var months = (MAX_DATE.getFullYear() - y) * 12 + (MAX_DATE.getMonth() - (m - 1));
+    // 시작 월과 최종 상환월(2029년 1월)을 모두 포함해 계산 (예: 2027년 1월 시작 → 25개월)
+    var months = (MAX_DATE.getFullYear() - y) * 12 + (MAX_DATE.getMonth() - (m - 1)) + 1;
     if (months < 1) months = 1;
     if (months > 31) months = 31;
     document.getElementById('calc-period-info').textContent =
@@ -2275,13 +2276,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   window.calcRun = calcRun;
 
   document.addEventListener('DOMContentLoaded', function() {
-    var now = new Date();
-    // 대출 시작 시점 기본값은 '이번 달'이 아닌 '다음 달'로 잡는다.
-    // 이미 지나가고 있는 이번 달은 실제로 선택 가능한 시작 시점이 아니므로,
-    // 현실적으로 가능한 가장 이른 시점(다음 달)을 기본 노출한다. 실제 날짜 기준 자동 계산이라 매달 별도 수정 불필요.
-    var defaultDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-    var defaultYear = defaultDate.getFullYear();
-    var defaultMonth = defaultDate.getMonth() + 1;
+    // 대출 시작 시점 기본값: 2027년 1월 고정
+    // (2026년 12월 회차 선정 시 2027년 1월 6일 이후 대출 집행 → 최대 25개월 분할상환)
+    var defaultYear = 2027;
+    var defaultMonth = 1;
     var yy = document.getElementById('calc-sel-year');
     var mm = document.getElementById('calc-sel-month');
     for (var y = 2026; y <= 2028; y++) {
@@ -2654,7 +2652,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="tl-label mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
             </div>
             <div class="text-center">
-              <div class="tl-dot tone-primary is-future mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm" data-ym="2026-12" data-tone="primary">12월</div>
+              <div class="tl-dot tone-primary is-future mx-auto w-12 h-12 rounded-full flex items-center justify-center font-pretendard-bold text-sm" data-ym="2026-12" data-tone="primary" data-review="12/23" data-result="12/24" data-contract="1/6~" data-contract-name="대출 집행" data-note="※ 12월 회차는 결과 통보 후 2027년 1월 6일 이후 대출 집행이 가능합니다. 세부 일정은 심사 상황에 따라 달라질 수 있습니다.">12월</div>
               <div class="tl-label mt-2 text-[11px] md:text-xs font-bold text-[var(--ink-2)]" data-editable contenteditable="false">1~15일</div>
             </div>
             <div class="text-center">
@@ -2695,11 +2693,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <div class="sched-step" data-role="contract">
               <div class="sched-num">04</div>
-              <div class="sched-name">약정 체결</div>
+              <div class="sched-name" data-default-name="약정 체결">약정 체결</div>
               <div class="sched-date">10/31~</div>
             </div>
           </div>
-          <p class="text-xs text-[var(--ink-3)] mt-3 leading-relaxed" data-editable contenteditable="false">※ 약정 체결 후 대출이 집행됩니다. 세부 일정은 회차·심사 상황에 따라 달라질 수 있습니다.</p>
+          <p id="sched-note" class="text-xs text-[var(--ink-3)] mt-3 leading-relaxed" data-editable contenteditable="false">※ 약정 체결 후 대출이 집행됩니다. 세부 일정은 회차·심사 상황에 따라 달라질 수 있습니다.</p>
         </div>
         <!-- 미확정 회차: 안내 문구 (JS가 확정 여부에 따라 표시) -->
         <div id="sched-pending" class="hidden rounded-2xl px-5 py-4 flex items-start gap-3" style="background: var(--primary-tint);">
@@ -2832,6 +2830,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           result:    result,
           contract:  contract
         };
+        // 4단계 이름·하단 안내: 회차별 data-contract-name / data-note 가 있으면 사용, 없으면 기본값
+        var cStepName = schedConfirm.querySelector('.sched-step[data-role="contract"] .sched-name');
+        if (cStepName) cStepName.textContent = rd.getAttribute('data-contract-name') || cStepName.getAttribute('data-default-name') || '약정 체결';
+        var schedNote = document.getElementById('sched-note');
+        if (schedNote) {
+          if (!schedNote.hasAttribute('data-default-note')) schedNote.setAttribute('data-default-note', schedNote.textContent);
+          schedNote.textContent = rd.getAttribute('data-note') || schedNote.getAttribute('data-default-note');
+        }
+
         Object.keys(phaseData).forEach(function (role) {
           var step = schedConfirm.querySelector('.sched-step[data-role="' + role + '"]');
           if (!step) return;
@@ -3406,6 +3413,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </span>
         <span>warmfund@naver.com</span>
       </a>
+    </div>
+
+    <!-- 신청 유의사항 공지 -->
+    <div id="apply-notice" class="mt-8 max-w-[760px] mx-auto text-left rounded-2xl px-5 py-5 md:px-7 md:py-6" style="background:#FFFFFF; border:1.5px solid rgba(255,102,51,0.35);">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-base">📢</span>
+        <span class="font-pretendard-bold text-[15px] md:text-base text-[var(--ink)]" data-editable contenteditable="false">신청 전 꼭 확인해 주세요</span>
+      </div>
+      <ul class="space-y-2 text-[13px] md:text-sm text-[var(--ink-2)] leading-relaxed">
+        <li class="flex gap-2"><span class="text-[var(--secondary)] font-bold flex-shrink-0">·</span><span data-editable contenteditable="false"><b class="text-[var(--ink)]">금융산업공익재단으로의 문의 전화는 삼가 주시기 바랍니다.</b> 든든한주거복지기금 관련 문의는 운영기관 나눔과미래(<span class="whitespace-nowrap">02-925-2528</span>, <span class="whitespace-nowrap">warmfund@naver.com</span>)로 해 주세요.</span></li>
+        <li class="flex gap-2"><span class="text-[var(--secondary)] font-bold flex-shrink-0">·</span><span data-editable contenteditable="false">신청서는 <b class="text-[var(--ink)]">공란 없이 모든 항목을 빠짐없이 기재</b>하고, 제출서류도 <b class="text-[var(--ink)]">누락 없이</b> 제출해 주세요. 미기재 항목이나 누락된 서류는 사무국에서 보완하지 않습니다.</span></li>
+        <li class="flex gap-2"><span class="text-[var(--secondary)] font-bold flex-shrink-0">·</span><span data-editable contenteditable="false"><b class="text-[var(--ink)]">채무조정 중이거나 채무조정을 신청 중인 경우</b>, 관련 서류를 함께 제출해 주세요.</span></li>
+      </ul>
     </div>
   </div>
 </section>
